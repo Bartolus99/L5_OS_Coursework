@@ -3,7 +3,9 @@ WINDOWS:
 -
 
 UNIX:
--
--
--
+- 
+- 
 
+EITHER:
+- Backup system
+- Password generator (might need to merge with another idea)
