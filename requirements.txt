@@ -1,103 +1,91 @@
 Deliverables:
-- You are required to program TWO shell scripts, 
-one which executes in a Unix environment and one 
-which executes in a Windows environment.
+- You are required to program TWO shell scripts, one which executes 
+in a Unix environment and one which executes in a Windows environment.
 
+---
 
 Requirements:
-- 1. They must perform an operating system routine, 
-which is based on a useful system administration 
-function. 
-Some examples of useful system administration 
-functions are given below.
-
-- 2. It must be possible to run them and hence 
-demonstrate them using the facilities available in 
-the labs used by this module. 
-Alternatively, you may use your own hardware (e.g. 
-personal laptop) and software provided that they 
-are both legal (e.g. licensed) and you are able to 
-bring them to the University for the purposes of 
-demonstration.
-
-- 3. They may be written in whatever shell scripting 
-language you choose provided that they comply with 
-point 2 above, and that you do not use the same 
-scripting language for both the Unix and Windows 
-scripts. 
-There are a significant number of scripting 
-languages available for Unix including Bash, Perl 
-and Python and for Windows including Powershell, 
-VBScript, JScript and the traditional batch file 
-language. 
-In addition, there are Windows versions of 
-many of the scripting languages that are available 
-for Unix including Perl and Python. 
-Whilst you are free to choose any shell scripting 
-language you like, the module leader RECOMMENDS 
-that you use Bash for your Unix script and a batch 
-file for Windows. 
-These are the simplest scripting languages for 
-beginners.
-
-- 4. You may use examples of scripts that you find 
-in printed documentation and on the Web as the 
-starting point for your own scripts. 
-If you do so, you must include a copy of the 
-original script in your submitted documentation 
-(failure to do so will lead to a mark of zero and 
-charges of plagiarism) along with details of its 
-source. 
-You must also be in a position, when you demonstrate 
-your script to your tutor, to explain how you have 
-enhanced/changed the original script.
+- 1. They must perform an operating system routine, which is based on 
+a useful system administration function. 
+Some examples of useful system administration functions are given below.
 
 
-You will be required to demonstrate your work 
-towards the end of the module at a time to be 
-specified by the module leader via Moodle.
+- 2. It must be possible to run them and hence demonstrate them using 
+the facilities available in the labs used by this module. 
 
+Alternatively, you may use your own hardware (e.g. personal laptop) and 
+software provided that they are both legal (e.g. licensed) and you are 
+able to bring them to the University for the purposes of demonstration.
+
+
+- 3. They may be written in whatever shell scripting language you choose 
+provided that they comply with point 2 above, and that you do not use 
+the same scripting language for both the Unix and Windows scripts. 
+
+There are a significant number of scripting languages available for Unix 
+including Bash, Perl and Python and for Windows including Powershell, 
+VBScript, JScript and the traditional batch file language. 
+
+In addition, there are Windows versions of many of the scripting 
+languages that are available for Unix including Perl and Python. 
+
+Whilst you are free to choose any shell scripting language you like, the 
+module leader RECOMMENDS that you use Bash for your Unix script and a 
+batch file for Windows. 
+
+These are the simplest scripting languages for beginners.
+
+
+- 4. You may use examples of scripts that you find in printed 
+documentation and on the Web as the starting point for your own scripts. 
+
+If you do so, you must include a copy of the original script in your 
+submitted documentation (failure to do so will lead to a mark of zero 
+and charges of plagiarism) along with details of its source. 
+
+You must also be in a position, when you demonstrate your script to your 
+tutor, to explain how you have enhanced/changed the original script.
+
+---
+
+You will be required to demonstrate your work towards the end of the 
+module at a time to be specified by the module leader via Moodle.
+
+---
 
 Report Submission
-- Before the demonstration session, you will need to 
-submit your report online by 12.00pm on Monday 17th 
-December 2018.
+- Before the demonstration session, you will need to submit your report 
+online by 12.00pm on Monday 17th December 2018.
 
 - Report should include:
-	- Copies of your two scripts (for Windows 
-and Unix), with annotations
-	- Copies of any and all scripts which you 
-used as a basis for your own with details of how you
-have changed the originals.
-	- An evaluation (between one to two pages of 
-A4) of your contribution to the work of the group 
-(list below)
-	- References section including a list of 
-in-text references.
-k
-	- A discussion of what you would do 
-differently if you were given a second opportunity 
-to undertake this coursework.
-	- A bibliography containing details of ALL 
-sources of information that you have used whilst 
-preparing this coursework.
+	- Copies of your two scripts (for Windows and Unix), with 
+annotations
+	- Copies of any and all scripts which you used as a basis for 
+your own with details of how you have changed the originals.
+	- An evaluation (between one to two pages of A4) of your 
+contribution to the work of the group (list below)
+	- References section including a list of in-text references.
+	- A discussion of what you would do differently if you were 
+given a second opportunity to undertake this coursework.
+	- A bibliography containing details of ALL sources of 
+information that you have used whilst preparing this coursework.
+
 
 Evaluation needs to include:
-	- The total number of hours spent 
-	working on the coursework
-	- An assessment of whether the amount of 
-time that you spent on the coursework was adequate
-	- An assessment of the extent to which you
-have satisfied the requirements of this coursework
+	- The total number of hours spent working on the coursework
+	- An assessment of whether the amount of time that you spent 
+on the coursework was adequate
+	- An assessment of the extent to which you have satisfied the 
+requirements of this coursework
 
+---
 
 IMPORTANT:
- - Each student in the group has to submit an 
-individual report. The only similarity between the 
-reports will be the scripts, which means that the 
-report will need to be the individual students own 
-piece of work.
+ - Each student in the group has to submit an individual report. The 
+only similarity between the reports will be the scripts, which means 
+that the report will need to be the individual students own piece of 
+work.
 
- - Students must indicate the student number of 
-their other group member within their documentation 
-to make it easier to identify group membership.
+ - Students must indicate the student number of their other group 
+member within their documentation to make it easier to identify group 
+membership.
