@@ -1,11 +1,24 @@
 WINDOWS:
--
--
+- Backup System
+	- Menu system
+- Backup into remote server
+- Check for  mounted devices and ASK if using mounted device or remote server
+- Encryption
 
 UNIX:
-- 
-- 
+- Security menu
+	- List of IP addresses from blacklisted site and automatically block
+	- Password generator
+		- Change complexity
+	- Create new users (or multiple users)
 
-EITHER:
-- Backup system
-- Password generator (might need to merge with another idea)
+IDEAS_FOR_BOTH:
+- Commandline graphics
+- Progress bar
+- Phone notification system (last thing to do)
+- Reference bash-snippets (GitHub)
+- Reference bash3boilerplate (GitHub - framework?)
+- Reference awesome-bash (GitHub - has progress bar)
+- Reference bashoneliners.com
+- Reference simple-bash-scripts (GitHub)
+- Reference simple-bash-sctipts/while-menu (EOF)
