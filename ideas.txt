@@ -13,6 +13,7 @@ UNIX:
 		- Actually assign password to online account (if possible)
 		- Change complexity
 	- Create new users (or multiple users)
+	- Package manager (installing security software?)
 
 IDEAS_FOR_BOTH:
 - Commandline graphics (Colours, Tables, ASCII Graphics, Toilet?)
