@@ -14,18 +14,20 @@
 #################### 
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") #This loads the library for creating Dialog Boxes
 Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
-$AppDataPath = $env:APPDATA + "\WindowsBackupScript\"
-If(!(test-path $AppDataPath))
+$AppDataPath = $env:APPDATA + "\WindowsBackupScript\" #Sets Folder for Config file to be stored in. Uses Appdata Enviromental Variable
+
+If(!(test-path $AppDataPath)) #Tests to see if WindowsBackupScript folder exhists, if not: it makes it
 {
-New-Item -type Directory -Force -Path $AppDataPath
+	New-Item -type Directory -Force -Path $AppDataPath
 }
-$ConfigFilePath = $AppDataPath + "Config.xml"
-[xml]$ConfigFile = Get-Content $ConfigFilePath
+
+$ConfigFilePath = $AppDataPath + "Config.xml" #Sets path to Config File
+[xml]$ConfigFile = Get-Content $ConfigFilePath #Pulls Config file and reads it ready to be queried
 
 ###########
 #BUILD GUI#
 ###########
-# This form was created using POSHGUI.com  a free online gui designer for PowerShell
+# This form was created using POSHGUI.com  a free online gui designer for PowerShell and then edited
 
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
@@ -34,9 +36,9 @@ $Form                            = New-Object system.Windows.Forms.Form
 $Form.ClientSize                 = '349,221'
 $Form.text                       = "Windows Backup Script - By Josh and Bart"
 $Form.TopMost                    = $false
-$Form.FormBorderStyle 			 = 'Fixed3D'
-$Form.MaximizeBox 				 = $false
-$Form.MinimizeBox 				 = $false
+$Form.FormBorderStyle 			 = 'Fixed3D' #Disables resizing the form
+$Form.MaximizeBox 				 = $false #Removes Maximize button
+$Form.MinimizeBox 				 = $false #Removes Minimize button
 $Form.Icon						 = favicon.png
 
 $DocumentsCB                     = New-Object system.Windows.Forms.CheckBox
@@ -46,7 +48,7 @@ $DocumentsCB.width               = 95
 $DocumentsCB.height              = 20
 $DocumentsCB.location            = New-Object System.Drawing.Point(21,70)
 $DocumentsCB.Font                = 'Microsoft Sans Serif,10'
-$DocumentsCB.Checked		     = [System.Convert]::ToBoolean($ConfigFile.Backup.Documents.toBackup)
+$DocumentsCB.Checked		     = [System.Convert]::ToBoolean($ConfigFile.Backup.Documents.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $Logo                     		 = New-Object system.Windows.Forms.PictureBox
 $Logo.width               		 = 200
@@ -62,11 +64,11 @@ $MusicCB.width                   = 95
 $MusicCB.height                  = 20
 $MusicCB.location                = New-Object System.Drawing.Point(21,90)
 $MusicCB.Font                    = 'Microsoft Sans Serif,10'
-$MusicCB.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBackup)
+$MusicCB.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $CustomFolder1                   = New-Object system.Windows.Forms.TextBox
 $CustomFolder1.multiline         = $false
-$CustomFolder1.text              = $ConfigFile.Backup.CustomFolder1.path
+$CustomFolder1.text              = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
 $CustomFolder1.width             = 100
 $CustomFolder1.height            = 20
 $CustomFolder1.location          = New-Object System.Drawing.Point(34,170)
@@ -74,7 +76,7 @@ $CustomFolder1.Font              = 'Microsoft Sans Serif,10'
 
 $CustomFolder2                   = New-Object system.Windows.Forms.TextBox
 $CustomFolder2.multiline         = $false
-$CustomFolder2.text              = $ConfigFile.Backup.CustomFolder2.path
+$CustomFolder2.text              = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
 $CustomFolder2.width             = 100
 $CustomFolder2.height            = 20
 $CustomFolder2.location          = New-Object System.Drawing.Point(34,190)
@@ -86,7 +88,7 @@ $CustomCB1.width                 = 95
 $CustomCB1.height                = 20
 $CustomCB1.location              = New-Object System.Drawing.Point(21,170)
 $CustomCB1.Font                  = 'Microsoft Sans Serif,10'
-$CustomCB1.Checked			 	 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder1.toBackup)
+$CustomCB1.Checked			 	 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder1.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $DesktopCB                       = New-Object system.Windows.Forms.CheckBox
 $DesktopCB.text                  = "Desktop"
@@ -95,7 +97,7 @@ $DesktopCB.width                 = 95
 $DesktopCB.height                = 20
 $DesktopCB.location              = New-Object System.Drawing.Point(21,150)
 $DesktopCB.Font                  = 'Microsoft Sans Serif,10'
-$DesktopCB.Checked 				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Desktop.toBackup)
+$DesktopCB.Checked 				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Desktop.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $VideosCB                        = New-Object system.Windows.Forms.CheckBox
 $VideosCB.text                   = "Videos"
@@ -104,7 +106,7 @@ $VideosCB.width                  = 95
 $VideosCB.height                 = 20
 $VideosCB.location               = New-Object System.Drawing.Point(21,130)
 $VideosCB.Font                   = 'Microsoft Sans Serif,10'
-$VideosCB.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Videos.toBackup)
+$VideosCB.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Videos.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $PicturesCB                      = New-Object system.Windows.Forms.CheckBox
 $PicturesCB.text                 = "Pictures"
@@ -113,7 +115,7 @@ $PicturesCB.width                = 95
 $PicturesCB.height               = 20
 $PicturesCB.location             = New-Object System.Drawing.Point(21,110)
 $PicturesCB.Font                 = 'Microsoft Sans Serif,10'
-$PicturesCB.Checked 			 = [System.Convert]::ToBoolean($ConfigFile.Backup.Pictures.toBackup)
+$PicturesCB.Checked 			 = [System.Convert]::ToBoolean($ConfigFile.Backup.Pictures.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $CustomCB2                       = New-Object system.Windows.Forms.CheckBox
 $CustomCB2.AutoSize              = $false
@@ -121,7 +123,7 @@ $CustomCB2.width                 = 95
 $CustomCB2.height                = 20
 $CustomCB2.location              = New-Object System.Drawing.Point(21,190)
 $CustomCB2.Font                  = 'Microsoft Sans Serif,10'
-$CustomCB2.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder2.toBackup)
+$CustomCB2.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder2.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
 $RestoreButton                   = New-Object system.Windows.Forms.Button
 $RestoreButton.text              = "RESTORE"
@@ -159,20 +161,9 @@ $Form.controls.AddRange(@($DocumentsCB,$Logo,$MusicCB,$CustomFolder1,$CustomFold
 #https://stackoverflow.com/questions/20886243/press-any-key-to-continue 
 Function pause ($message)
 {
-    # Check if running Powershell ISE
-    if ($psISE)
-    {
-        Add-Type -AssemblyName System.Windows.Forms
-        [System.Windows.Forms.MessageBox]::Show("$message")
-    }
-    else
-    {
-        Write-Host "$message" -ForegroundColor Yellow
-        $x = $host.ui.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    }
+    Write-Host "$message" -ForegroundColor Yellow
+    $x = $host.ui.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
-
-#AddBackUpFolder?DialogFunction
 
 ###############
 #BUTTON EVENTS#
@@ -180,7 +171,8 @@ Function pause ($message)
 
 $BackupButton.Add_Click(
         {    
-		[System.Windows.Forms.MessageBox]::Show("BACKUP CLICKED" , "My Dialog Box")
+		[System.Windows.Forms.MessageBox]::Show("BACKUP CLICKED" , "HERE WE GO...")
+		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be convereted to strings to be stored.
 		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked)
 		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked)
 		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked)
@@ -196,7 +188,7 @@ $BackupButton.Add_Click(
 
 $RestoreButton.Add_Click(
         {    
-		[System.Windows.Forms.MessageBox]::Show("RESTORE CLICKED" , "My Dialog Box")
+		[System.Windows.Forms.MessageBox]::Show("RESTORE CLICKED" , "YOU DONE GONE GOOFED...")
         }
     )	
 	
