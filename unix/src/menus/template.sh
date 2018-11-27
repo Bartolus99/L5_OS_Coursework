@@ -5,7 +5,7 @@ progress_bar()
 	printf "Loading... | "
 	for x in {1..53}; do
 		printf "#"
-		sleep .05
+		sleep .02
 	done ; echo
 }
 title_screen()
@@ -37,4 +37,21 @@ title_screen
 sleep 0.5
 menu_screen
 
-echo "$menuIn"
+MENU_PATH="./menus"
+
+case "$menuIn" in
+"1")
+	eval "$MENU_PATH/ip-block.sh"
+	;;
+"2")
+	eval "$MENU_PATH/pass-gen.sh"
+	;;
+"3")
+	eval "$MENU_PATH/new-users.sh"
+	;;
+"4")
+	eval "$MENU_PATH/pkg-mgr.sh"
+	;;
+*)
+	echo "Invalid value!"
+esac

@@ -1,0 +1,84 @@
+IP: 79.68.135.160  | USER: barto
+--2018-11-21 16:23:18--  http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
+Resolving myip.ms (myip.ms)... 142.4.223.149, 2607:5300:60:8137:a149::1
+Connecting to myip.ms (myip.ms)|142.4.223.149|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 120109 (117K) [text/plain]
+Saving to: ‘latest_blacklist.txt’
+
+     0K .......... .......... .......... .......... .......... 42%  260K 0s
+    50K .......... .......... .......... .......... .......... 85%  549K 0s
+   100K .......... .......                                    100% 4.09M=0.3s
+
+2018-11-21 16:23:18 (408 KB/s) - ‘latest_blacklist.txt’ saved [120109/120109]
+
+IP: 79.68.135.160  | USER: barto
+--2018-11-21 16:23:47--  http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
+Resolving myip.ms (myip.ms)... 142.4.223.149, 2607:5300:60:8137:a149::1
+Connecting to myip.ms (myip.ms)|142.4.223.149|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 120109 (117K) [text/plain]
+Saving to: ‘latest_blacklist.txt’
+
+     0K .......... .......... .......... .......... .......... 42%  268K 0s
+    50K .......... .......... .......... .......... .......... 85%  551K 0s
+   100K .......... .......                                    100% 5.45M=0.3s
+
+2018-11-21 16:23:48 (418 KB/s) - ‘latest_blacklist.txt’ saved [120109/120109]
+
+IP: 79.68.135.160  - USER: barto
+--2018-11-21 16:27:09--  http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
+Resolving myip.ms (myip.ms)... 142.4.223.149, 2607:5300:60:8137:a149::1
+Connecting to myip.ms (myip.ms)|142.4.223.149|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 120109 (117K) [text/plain]
+Saving to: ‘latest_blacklist.txt.1’
+
+     0K .......... .......... .......... .......... .......... 42%  239K 0s
+    50K .......... .......... .......... .......... .......... 85%  560K 0s
+   100K .......... .......                                    100%  849K=0.3s
+
+2018-11-21 16:27:09 (368 KB/s) - ‘latest_blacklist.txt.1’ saved [120109/120109]
+
+IP: 79.68.135.160  - USER: barto
+--2018-11-21 16:29:49--  http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
+Resolving myip.ms (myip.ms)... 142.4.223.149, 2607:5300:60:8137:a149::1
+Connecting to myip.ms (myip.ms)|142.4.223.149|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 120109 (117K) [text/plain]
+Saving to: ‘latest_blacklist.txt.2’
+
+     0K .......... .......... .......... .......... .......... 42%  273K 0s
+    50K .......... .......... .......... .......... .......... 85%  640K 0s
+   100K .......... .......                                    100% 1.57M=0.3s
+
+2018-11-21 16:29:50 (432 KB/s) - ‘latest_blacklist.txt.2’ saved [120109/120109]
+
+IP: 79.68.135.160  - USER: barto
+--2018-11-21 16:31:16--  http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
+Resolving myip.ms (myip.ms)... 142.4.223.149, 2607:5300:60:8137:a149::1
+Connecting to myip.ms (myip.ms)|142.4.223.149|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 120104 (117K) [text/plain]
+Saving to: ‘latest_blacklist.txt.3’
+
+     0K .......... .......... .......... .......... .......... 42%  272K 0s
+    50K .......... .......... .......... .......... .......... 85%  583K 0s
+   100K .......... .......                                    100% 11.2M=0.3s
+
+2018-11-21 16:31:16 (432 KB/s) - ‘latest_blacklist.txt.3’ saved [120104/120104]
+
+IP: 79.68.135.160  - USER: barto
+--2018-11-21 16:33:57--  http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
+Resolving myip.ms (myip.ms)... 142.4.223.149, 2607:5300:60:8137:a149::1
+Connecting to myip.ms (myip.ms)|142.4.223.149|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 120104 (117K) [text/plain]
+Saving to: ‘latest_blacklist.txt.4’
+
+     0K .......... .......... .......... .......... .......... 42%  287K 0s
+    50K .......... .......... .......... .......... .......... 85%  698K 0s
+   100K .......... .......                                    100% 1.01M=0.3s
+
+2018-11-21 16:33:58 (446 KB/s) - ‘latest_blacklist.txt.4’ saved [120104/120104]
+
