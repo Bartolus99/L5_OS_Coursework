@@ -14,14 +14,16 @@
 #################### 
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") #This loads the library for creating Dialog Boxes
 Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
-$AppDataPath = $env:APPDATA + "\WindowsBackupScript\" #Sets Folder for Config file to be stored in. Uses Appdata Enviromental Variable
+$ConfigFilePath = ".\Config.xml" #Sets Folder for Config file to be stored in. Uses Appdata Enviromental Variable
 
-If(!(test-path $AppDataPath)) #Tests to see if WindowsBackupScript folder exhists, if not: it makes it
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+$logoPath = Join-Path $scriptPath 'WinBackupLogo.png'
+
+If(!(test-path $ConfigFilePath)) #Tests to see if WindowsBackupScript folder exhists, if not: it makes it
 {
-	New-Item -type Directory -Force -Path $AppDataPath
+	New-Item -type File -Force -Path $ConfigFilePath
 }
 
-$ConfigFilePath = $AppDataPath + "Config.xml" #Sets path to Config File
 [xml]$ConfigFile = Get-Content $ConfigFilePath #Pulls Config file and reads it ready to be queried
 
 ###########
@@ -39,7 +41,6 @@ $Form.TopMost                    = $false
 $Form.FormBorderStyle 			 = 'Fixed3D' #Disables resizing the form
 $Form.MaximizeBox 				 = $false #Removes Maximize button
 $Form.MinimizeBox 				 = $false #Removes Minimize button
-$Form.Icon						 = favicon.png
 
 $DocumentsCB                     = New-Object system.Windows.Forms.CheckBox
 $DocumentsCB.text                = "Documents"
@@ -54,7 +55,7 @@ $Logo                     		 = New-Object system.Windows.Forms.PictureBox
 $Logo.width               		 = 200
 $Logo.height              		 = 60
 $Logo.location            		 = New-Object System.Drawing.Point(13,10)
-$Logo.imageLocation       		 = "C:\Users\Josh\L5_OS_Coursework\windows\WinBackupLogo.png"
+$Logo.imageLocation       		 = "$logoPath"
 $Logo.SizeMode      	         = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
 $MusicCB                         = New-Object system.Windows.Forms.CheckBox

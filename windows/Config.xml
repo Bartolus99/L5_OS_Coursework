@@ -1,0 +1,25 @@
+<Backup>
+  <Documents>
+    <toBackup>True</toBackup>
+  </Documents>
+  <Music>
+    <toBackup>False</toBackup>
+  </Music>
+  <Pictures>
+    <toBackup>True</toBackup>
+  </Pictures>
+  <Videos>
+    <toBackup>False</toBackup>
+  </Videos>
+  <Desktop>
+    <toBackup>True</toBackup>
+  </Desktop>
+  <CustomFolder1>
+    <toBackup>False</toBackup>
+    <path>yay</path>
+  </CustomFolder1>
+  <CustomFolder2>
+    <toBackup>True</toBackup>
+    <path>This is a test</path>
+  </CustomFolder2>
+</Backup>
