@@ -37,4 +37,3 @@
 	<li>simple-bash-scripts (GitHub)</li>
 	<li>simple-bash-sctipts/while-menu</li>
 </ul>
-(EOF)
