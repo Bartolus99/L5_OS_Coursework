@@ -9,3 +9,12 @@ by Batolus
 
 What is it?
 A Bash script for Security stuff on Linux!
+
+<h2>Includes</h2>
+<ul>
+  <li>Blocking blacklisted IP addresses</li>
+  <li>Generating secure passwords</li>
+  <li>Checking password strength</li>
+  <li>File encryption/decryption</li>
+ </ul>
+
