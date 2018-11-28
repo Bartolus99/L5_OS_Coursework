@@ -17,4 +17,9 @@ A Bash script for Security stuff on Linux!
   <li>Checking password strength</li>
   <li>File encryption/decryption</li>
  </ul>
-
+<br />
+<h1>Resources</h1>
+<ul>
+  <li><a href="ideas.md">Ideas</a></li>
+  <li><a href="folder-strcture.md">Folder Structure</a></li>
+</ul>
