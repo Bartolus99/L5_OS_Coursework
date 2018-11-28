@@ -21,5 +21,5 @@ A Bash script for Security stuff on Linux!
 <h1>Resources</h1>
 <ul>
   <li><a href="ideas.md">Ideas</a></li>
-  <li><a href="folder-strcture.md">Folder Structure</a></li>
+  <li><a href="folder-structure.md">Folder Structure</a></li>
 </ul>
