@@ -5,7 +5,7 @@ What is it?
 A Powershell script with a GUI for configuration for Backing up and Restoring folders on Windows
 
 <h1> UNIX Security Script </h1>
-by Batolus
+by Bartolus99
 
 What is it?
 A Bash script for Security stuff on Linux!
