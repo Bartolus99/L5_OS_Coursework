@@ -1,2 +1,2 @@
 <h1>Proposed folder structure</h1>
-<ul><li>`project-root -> unix/windows -> src`</li></ul>
+<ul><li><code>project-root -> unix/windows -> src</code></li></ul>
