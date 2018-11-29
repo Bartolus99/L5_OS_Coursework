@@ -12,17 +12,24 @@
 ####################
 #Load Prerequisites#
 #################### 
-[System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") #This loads the library for creating Dialog Boxes
+[Net.ServicePointManager]::SecurityProtocol::Tls12 #Powershell uses TLS1.0 by default. This is now deprecated and many public webpages will not allow 1.0 request so we force Powershell to use 1.2
 Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
-$ConfigFilePath = ".\Config.xml" #Sets Folder for Config file to be stored in. Uses Appdata Enviromental Variable
+$ConfigFilePath = ".\Config.xml" #Sets Folder for Config file to be stored in. 
 
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-$logoPath = Join-Path $scriptPath 'WinBackupLogo.png'
+#Workaround for powershell not accepting relative paths for images. 
+$logoPath = Join-Path $PSScriptRoot 'WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
 
-If(!(test-path $ConfigFilePath)) #Tests to see if WindowsBackupScript folder exhists, if not: it makes it
+If(!(test-path $ConfigFilePath)) #Tests to see if ConfigFile.xml exhists. If it doesn't; it will downlaod it from GitHub.
 {
-	New-Item -type File -Force -Path $ConfigFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/ConfigBackup.xml" -OutFile $ConfigFilePath
 }
+
+If(!(test-path $logoPath)) #Tests to see if WinBackupLogo.png exhists. If it doesn't; it will downlaod it from GitHub.
+{
+	Invoke-WebRequest -Uri "https://github.com/Bartolus99/L5_OS_Coursework/blob/master/windows/WinBackupLogo.png?raw=true" -OutFile $logoPath
+}
+
+
 
 [xml]$ConfigFile = Get-Content $ConfigFilePath #Pulls Config file and reads it ready to be queried
 
@@ -70,7 +77,7 @@ $MusicCB.Checked				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBa
 $CustomFolder1                   = New-Object system.Windows.Forms.TextBox
 $CustomFolder1.multiline         = $false
 $CustomFolder1.text              = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
-$CustomFolder1.width             = 100
+$CustomFolder1.width             = 120
 $CustomFolder1.height            = 20
 $CustomFolder1.location          = New-Object System.Drawing.Point(34,170)
 $CustomFolder1.Font              = 'Microsoft Sans Serif,10'
@@ -78,7 +85,7 @@ $CustomFolder1.Font              = 'Microsoft Sans Serif,10'
 $CustomFolder2                   = New-Object system.Windows.Forms.TextBox
 $CustomFolder2.multiline         = $false
 $CustomFolder2.text              = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
-$CustomFolder2.width             = 100
+$CustomFolder2.width             = 120
 $CustomFolder2.height            = 20
 $CustomFolder2.location          = New-Object System.Drawing.Point(34,190)
 $CustomFolder2.Font              = 'Microsoft Sans Serif,10'
