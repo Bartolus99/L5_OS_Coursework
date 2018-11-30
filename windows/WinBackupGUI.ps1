@@ -191,7 +191,8 @@ $BackupButton.Add_Click(
 		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text  
 		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text  
 		$ConfigFile.Save($ConfigFilePath);
-        }
+		Invoke-Item (start powershell ((Join-Path $PSScriptRoot '\Backup.ps1')))
+		}
     )
 
 $RestoreButton.Add_Click(
