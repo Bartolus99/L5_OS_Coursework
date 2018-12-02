@@ -2,17 +2,48 @@
 
 $DocumentsBackup		     = [System.Convert]::ToBoolean($ConfigFile.Backup.Documents.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $MusicBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
-$CustomPath1                 = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
-$CustomPath2                 = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
 $CustomBackup1			 	 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder1.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $CustomBackup2			 	 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder2.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $DesktopBackup 				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Desktop.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $VideosBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Videos.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $PicturesBackup 			 = [System.Convert]::ToBoolean($ConfigFile.Backup.Pictures.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
-$DocumentsPath = [environment]::getfolderpath("mydocuments")
+$CustomPath1                 = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
+$CustomPath2                 = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
+$DocumentsPath 				 = [environment]::getfolderpath("mydocuments")
+$MusicPath 					 = [environment]::getfolderpath("mymusic")
+$DesktopPath 				 = [environment]::getfolderpath("desktop")
+$VideosPath 				 = [environment]::getfolderpath("myvideos")
+$PicturesPath 				 = [environment]::getfolderpath("mypictures")
 
-create-7zip $DocumentsPath $DocumentsPath\test.zip
+#https://redmondmag.com/articles/2016/01/15/for-each-loop-in-powershell.aspx
+
+$toBackUpList 				 = @($DocumentsBackup, $DocumentsPath, 
+								$MusicBackup, $MusicPath,
+								$PicturesBackup, $PicturesPath,
+								$VideosBackup, $VideosPath,
+								$DesktopBackup, $DesktopPath,
+								$CustomBackup1, $CustomPath1,
+								$CustomBackup2, $CustomPath2
+								) 
+
+$backupTrue = $false
+foreach ($item in $toBackUpList)
+{
+	if ($item -ne 'True' -or $item -ne 'False')
+	{
+		if ($backupTrue = $true)
+		{
+			Compress-Archive -Path $item -Update -DestinationPath $item"\backup.zip"
+			$backupTrue = $false
+		}
+	}
+
+	if ($item -eq 'True') 
+	{
+		$backupTrue = $true
+	}
+}
 
 #DIALOG BOX
 #[System.Windows.Forms.Messagebox]::Show("$DocumentsBackup`n$MusicBackup`n$PicturesBackup`n$VideosBackup`n$DesktopBackup",[System.Windows.Forms.MessageBoxButtons]::OKCancel)

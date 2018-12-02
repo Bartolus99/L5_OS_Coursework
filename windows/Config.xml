@@ -6,20 +6,20 @@
     <toBackup>True</toBackup>
   </Music>
   <Pictures>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
   </Pictures>
   <Videos>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
   </Videos>
   <Desktop>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
   </Desktop>
   <CustomFolder1>
-    <toBackup>True</toBackup>
-    <path>Choose your own</path>
+    <toBackup>False</toBackup>
+    <path>This is a test</path>
   </CustomFolder1>
   <CustomFolder2>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
     <path>Choose your own</path>
   </CustomFolder2>
 </Backup>

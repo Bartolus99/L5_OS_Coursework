@@ -14,24 +14,26 @@
 #################### 
 [Net.ServicePointManager]::SecurityProtocol::Tls12 #Powershell uses TLS1.0 by default. This is now deprecated and many public webpages will not allow 1.0 request so we force Powershell to use 1.2
 Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
-$ConfigFilePath = ".\Config.xml" #Sets Folder for Config file to be stored in. 
+$ConfigFilePath = Join-Path $PSScriptRoot 'Config.xml' #Sets Folder for Config file to be stored in. 
 
 #Workaround for powershell not accepting relative paths for images. 
 $logoPath = Join-Path $PSScriptRoot 'WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
 
-If(!(test-path $ConfigFilePath)) #Tests to see if ConfigFile.xml exhists. If it doesn't; it will downlaod it from GitHub.
+#Tests to see if ConfigFile.xml exhists. If it doesn't; it will downlaod it from GitHub.
+If(!(test-path $ConfigFilePath)) 
 {
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/ConfigBackup.xml" -OutFile $ConfigFilePath
 }
 
-If(!(test-path $logoPath)) #Tests to see if WinBackupLogo.png exhists. If it doesn't; it will downlaod it from GitHub.
+#Tests to see if WinBackupLogo.png exhists. If it doesn't; it will downlaod it from GitHub.
+If(!(test-path $logoPath)) 
 {
 	Invoke-WebRequest -Uri "https://github.com/Bartolus99/L5_OS_Coursework/blob/master/windows/WinBackupLogo.png?raw=true" -OutFile $logoPath
 }
 
 
 
-[xml]$ConfigFile = Get-Content $ConfigFilePath #Pulls Config file and reads it ready to be queried
+[xml]$ConfigFile = Get-Content -path $ConfigFilePath #Pulls Config file and reads it ready to be queried
 
 ###########
 #BUILD GUI#
@@ -179,7 +181,6 @@ Function pause ($message)
 
 $BackupButton.Add_Click(
         {    
-		[System.Windows.Forms.MessageBox]::Show("BACKUP CLICKED" , "HERE WE GO...")
 		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be convereted to strings to be stored.
 		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked)
 		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked)
@@ -190,8 +191,8 @@ $BackupButton.Add_Click(
 		$ConfigFile.Backup.CustomFolder2.toBackup = [System.Convert]::ToString($CustomCB2.checked)
 		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text  
 		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text  
-		$ConfigFile.Save($ConfigFilePath);
-		Invoke-Item (start powershell ((Join-Path $PSScriptRoot '\Backup.ps1')))
+		$ConfigFile.Save($ConfigFilePath)
+		&(Join-Path $PSScriptRoot '\Backup.ps1')
 		}
     )
 
