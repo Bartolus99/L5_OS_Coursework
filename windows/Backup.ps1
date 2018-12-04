@@ -30,16 +30,17 @@ $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath,
 $backupTrue = $false
 foreach ($item in $toBackUpList)
 {
-	if ($item -ne 'True' -or $item -ne 'False')
+	if ($item -ne $true -and $item -ne $false)
 	{
-		if ($backupTrue = $true)
+		if ($backupTrue -eq $true)
 		{
+			Write-Host '3'$item
+			Write-Host '3'$backupTrue
 			Compress-Archive -Path $item -Update -DestinationPath $item"\backup.zip"
 			$backupTrue = $false
 		}
 	}
-
-	if ($item -eq 'True') 
+	if ($item -eq $true) 
 	{
 		$backupTrue = $true
 	}
