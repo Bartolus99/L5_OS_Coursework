@@ -14,21 +14,30 @@
 #################### 
 [Net.ServicePointManager]::SecurityProtocol::Tls12 #Powershell uses TLS1.0 by default. This is now deprecated and many public webpages will not allow 1.0 request so we force Powershell to use 1.2
 Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
-$ConfigFilePath = Join-Path $PSScriptRoot 'Config.xml' #Sets Folder for Config file to be stored in. 
+
+$ConfigFilePath = Join-Path $PSScriptRoot 'src/Config.xml' #Sets Folder for Config file to be stored in. 
+
+$BackupFilePath = Join-Path $PSScriptRoot 'src/Backup.ps1' #Sets Path for Backup Script
 
 #Workaround for powershell not accepting relative paths for images. 
-$logoPath = Join-Path $PSScriptRoot 'WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
+$logoPath = Join-Path $PSScriptRoot 'src/WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
 
 #Tests to see if ConfigFile.xml exhists. If it doesn't; it will downlaod it from GitHub.
 If(!(test-path $ConfigFilePath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/ConfigBackup.xml" -OutFile $ConfigFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/ConfigBackup.xml" -OutFile $ConfigFilePath
+}
+
+#Tests to see if Backup.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
+If(!(test-path $BackupFilePathPath)) 
+{
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $ConfigFilePath
 }
 
 #Tests to see if WinBackupLogo.png exhists. If it doesn't; it will downlaod it from GitHub.
 If(!(test-path $logoPath)) 
 {
-	Invoke-WebRequest -Uri "https://github.com/Bartolus99/L5_OS_Coursework/blob/master/windows/WinBackupLogo.png?raw=true" -OutFile $logoPath
+	Invoke-WebRequest -Uri "https://github.com/Bartolus99/L5_OS_Coursework/blob/master/windows/src/WinBackupLogo.png?raw=true" -OutFile $logoPath
 }
 
 
@@ -192,7 +201,7 @@ $BackupButton.Add_Click(
 		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text  
 		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text  
 		$ConfigFile.Save($ConfigFilePath)
-		&(Join-Path $PSScriptRoot '\Backup.ps1')
+		&(Join-Path $PSScriptRoot '\src\Backup.ps1')
 		}
     )
 
