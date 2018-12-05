@@ -1,5 +1,11 @@
 # Author - Joshua Button - U168860
 
+############
+#REFERENCES#
+############
+#https://redmondmag.com/articles/2016/01/15/for-each-loop-in-powershell.aspx - FOR EACH LOOP
+
+#Retrieve users backup choices fron Config.xml
 $DocumentsBackup		     = [System.Convert]::ToBoolean($ConfigFile.Backup.Documents.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $MusicBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $CustomBackup1			 	 = [System.Convert]::ToBoolean($ConfigFile.Backup.CustomFolder1.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
@@ -8,6 +14,7 @@ $DesktopBackup 				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Desktop.toB
 $VideosBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Videos.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $PicturesBackup 			 = [System.Convert]::ToBoolean($ConfigFile.Backup.Pictures.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
+#Retrieve folder paths
 $CustomPath1                 = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
 $CustomPath2                 = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
 $DocumentsPath 				 = [environment]::getfolderpath("mydocuments")
@@ -16,8 +23,7 @@ $DesktopPath 				 = [environment]::getfolderpath("desktop")
 $VideosPath 				 = [environment]::getfolderpath("myvideos")
 $PicturesPath 				 = [environment]::getfolderpath("mypictures")
 
-#https://redmondmag.com/articles/2016/01/15/for-each-loop-in-powershell.aspx
-
+#Create array for looping through folders to backup
 $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath, 
 								$MusicBackup, $MusicPath,
 								$PicturesBackup, $PicturesPath,
@@ -34,8 +40,6 @@ foreach ($item in $toBackUpList)
 	{
 		if ($backupTrue -eq $true)
 		{
-			Write-Host '3'$item
-			Write-Host '3'$backupTrue
 			Compress-Archive -Path $item -Update -DestinationPath $item"\backup.zip"
 			$backupTrue = $false
 		}
