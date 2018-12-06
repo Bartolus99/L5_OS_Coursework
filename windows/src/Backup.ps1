@@ -23,7 +23,7 @@ $DesktopPath 				 = [environment]::getfolderpath("desktop")
 $VideosPath 				 = [environment]::getfolderpath("myvideos")
 $PicturesPath 				 = [environment]::getfolderpath("mypictures")
 
-#Create array for looping through folders to backup
+#Create array for looping through folders to backup. Odd items are the users choice to backup the folder or not, even items are the folder paths.
 $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath, 
 								$MusicBackup, $MusicPath,
 								$PicturesBackup, $PicturesPath,
@@ -33,20 +33,20 @@ $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath,
 								$CustomBackup2, $CustomPath2
 								) 
 
-$backupTrue = $false
-foreach ($item in $toBackUpList)
+$backupTrue = $false #Sets our Backup Identifier to false
+foreach ($item in $toBackUpList) #Loops through our array and each loop holds the current item as $item so the same operation is done to each item
 {
-	if ($item -ne $true -and $item -ne $false)
+	if ($item -eq $true) #Waiting for user choices equal to true to pass through. 
 	{
-		if ($backupTrue -eq $true)
-		{
-			Compress-Archive -Path $item -Update -DestinationPath $item"\backup.zip"
-			$backupTrue = $false
-		}
+		$backupTrue = $true #When a userchoice true comes throguh we set $backupTrue to true so we know the next path needs to be backed up
 	}
-	if ($item -eq $true) 
+	if ($item -ne $true -and $item -ne $false #Checks if $item is a path. If it is a boolean it will skip over this
 	{
-		$backupTrue = $true
+		if ($backupTrue -eq $true) #Checks if a userchoice has been true
+		{
+			Compress-Archive -Path $item -Update -DestinationPath $item"\backup.zip" #BacksUp the path passed from the array into a zip file
+			$backupTrue = $false #Sets the flag back to false ready for the next userchoice check
+		}
 	}
 }
 
