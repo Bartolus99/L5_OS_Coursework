@@ -19,6 +19,8 @@ $ConfigFilePath = Join-Path $PSScriptRoot '\src\Config.xml' #Sets Folder for Con
 
 $BackupFilePath = Join-Path $PSScriptRoot '\src\Backup.ps1' #Sets Path for Backup Script
 
+$RestoreFilePath = Join-Path $PSScriptRoot '\src\Restore.ps1' #Sets Path for Restore Script
+
 #Workaround for powershell not accepting relative paths for images. 
 $logoPath = Join-Path $PSScriptRoot '\src\WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
 
@@ -29,6 +31,12 @@ If(!(test-path $ConfigFilePath))
 }
 
 #Tests to see if Backup.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
+If(!(test-path $BackupFilePath)) 
+{
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $ConfigFilePath
+}
+
+#Tests to see if Restore.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
 If(!(test-path $BackupFilePath)) 
 {
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $ConfigFilePath
@@ -207,7 +215,17 @@ $BackupButton.Add_Click(
 
 $RestoreButton.Add_Click(
         {    
-		[System.Windows.Forms.MessageBox]::Show("RESTORE CLICKED" , "YOU DONE GONE GOOFED...")
+		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked)
+		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked)
+		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked)
+		$ConfigFile.Backup.Videos.toBackup = [System.Convert]::ToString($VideosCB.checked)
+		$ConfigFile.Backup.Desktop.toBackup = [System.Convert]::ToString($DesktopCB.checked)
+		$ConfigFile.Backup.CustomFolder1.toBackup = [System.Convert]::ToString($CustomCB1.checked)
+		$ConfigFile.Backup.CustomFolder2.toBackup = [System.Convert]::ToString($CustomCB2.checked)
+		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text  
+		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text  
+		$ConfigFile.Save($ConfigFilePath)
+		&(Join-Path $PSScriptRoot '\src\Restore.ps1')
         }
     )	
 	
