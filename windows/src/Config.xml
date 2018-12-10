@@ -22,4 +22,5 @@
     <toBackup>False</toBackup>
     <path>Choose your own</path>
   </CustomFolder2>
+  <BackupLocation></BackupLocation>
 </Backup>

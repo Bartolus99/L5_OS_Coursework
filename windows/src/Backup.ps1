@@ -14,7 +14,9 @@ $DesktopBackup 				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Desktop.toB
 $VideosBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Videos.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $PicturesBackup 			 = [System.Convert]::ToBoolean($ConfigFile.Backup.Pictures.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 
+
 #Retrieve folder paths
+$BackupLocation				 = $ConfigFile.Backup.BackupLocation #Pulls users backup location chice from XML file
 $CustomPath1                 = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
 $CustomPath2                 = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
 $DocumentsPath 				 = [environment]::getfolderpath("mydocuments")
@@ -22,6 +24,7 @@ $MusicPath 					 = [environment]::getfolderpath("mymusic")
 $DesktopPath 				 = [environment]::getfolderpath("desktop")
 $VideosPath 				 = [environment]::getfolderpath("myvideos")
 $PicturesPath 				 = [environment]::getfolderpath("mypictures")
+
 
 #Create array for looping through folders to backup. Odd items are the users choice to backup the folder or not, even items are the folder paths.
 $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath, 

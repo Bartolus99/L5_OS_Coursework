@@ -168,6 +168,15 @@ $BackupButton.location           = New-Object System.Drawing.Point(275,182)
 $BackupButton.Font               = 'Comic Sans MS,10,style=Bold'
 $BackupButton.ForeColor          = "#ff0000"
 
+
+$BackupLocationButton            = New-Object system.Windows.Forms.Button
+$BackupLocationButton.text       = "BACKUP LOCATION"
+$BackupLocationButton.width      = 140
+$BackupLocationButton.height     = 30
+$BackupLocationButton.location   = New-Object System.Drawing.Point(193,70)
+$BackupLocationButton.Font       = 'Comic Sans MS,10,style=Bold'
+$BackupLocationButton.ForeColor  = "#4a90e2"
+
 $WinForm1                        = New-Object system.Windows.Forms.Form
 $WinForm1.ClientSize             = '349,221'
 $WinForm1.text                   = "Form"
@@ -179,7 +188,7 @@ $WinForm2.text                   = "Form"
 $WinForm2.TopMost                = $false
 
 
-$Form.controls.AddRange(@($DocumentsCB,$Logo,$MusicCB,$CustomFolder1,$CustomFolder2,$CustomCB1,$DesktopCB,$VideosCB,$PicturesCB,$CustomCB2,$RestoreButton,$BackupButton))
+$Form.controls.AddRange(@($DocumentsCB,$Logo,$MusicCB,$CustomFolder1,$CustomFolder2,$CustomCB1,$DesktopCB,$VideosCB,$PicturesCB,$CustomCB2,$RestoreButton,$BackupButton,$BackupLocationButton))
 
 ###########
 #Functions#
@@ -190,6 +199,21 @@ Function pause ($message)
 {
     Write-Host "$message" -ForegroundColor Yellow
     $x = $host.ui.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+}
+
+Function Get-Folder($initialDirectory)
+{
+    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null
+
+    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
+    $foldername.Description = "Select a folder to save your Backup to:"
+    $foldername.rootfolder = "MyComputer"
+
+    if($foldername.ShowDialog() -eq "OK")
+    {
+        $folder += $foldername.SelectedPath
+    }
+    return $folder
 }
 
 ###############
@@ -229,6 +253,15 @@ $RestoreButton.Add_Click(
         }
     )	
 	
+	
+$BackupLocationButton.Add_Click(
+		{
+		$BackupLocation = Get-Folder
+		$ConfigFile.Backup.BackupLocation = $BackupLocation
+		$ConfigFile.Save($ConfigFilePath)
+		}
+	)
+		
 ###############
 #Progam Begins#
 ###############
