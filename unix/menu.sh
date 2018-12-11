@@ -69,6 +69,8 @@ if [ "$EUID" -ne 0 ] ; then
 	exit
 fi
 
+cd ./src
+
 MENU_PATH="./menus"
 IP_PATH="$MENU_PATH/ip"
 PASS_PATH="$MENU_PATH/pass"
