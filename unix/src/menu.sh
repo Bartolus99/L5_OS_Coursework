@@ -10,8 +10,7 @@ progress_bar()
 }
 title_screen()
 {
-	clear
-	printf "\n"
+	printf "\e[H\e[J\n"
 	cat titles/security-menu
 	printf "\n"
 	progress_bar
@@ -19,12 +18,12 @@ title_screen()
 done_screen()
 {
 	while : ; do
-		printf "\nWould you like to exit (Y/N)? "
+		printf "\nWould you like to exit? (Y/N): "
 		read exitChoice
-		printf "${exitChoice^^}"
+		
 		if [ "${exitChoice^^}" = "Y" ] || [ "${exitChoice^^}" = "N" ] ; then
 			break
-		else
+		else3
 			printf "Invalid value!\n"
 			printf "\nTry Again!"
 		fi
@@ -35,8 +34,8 @@ menu_screen()
 	printf "\n"
 	printf "1. Block blacklisted IP addresses\n"
 	printf "2. Password generator\n"
-	printf "3. Create new users\n"
-	printf "4. Package manager\n"
+	printf "3. Password checker\n"
+	printf "\n9. Quit\n"
 	printf "\n"
 
 	while : ; do
@@ -44,19 +43,18 @@ menu_screen()
 		read menuChoice
 		case "$menuChoice" in
 		"1")
-			eval "$IP_BLOCK_PATH/ip-block.sh"
+			eval "$IP_PATH/ip-block.sh"
 			break
 			;;
 		"2")
-			eval "$MENU_PATH/pass-gen.sh"
+			eval "$PASS_PATH/pass-gen.sh"
 			break
 			;;
 		"3")
-			eval "$MENU_PATH/new-users.sh"
+			eval "$PASS_PATH/pass-check.sh"
 			break
 			;;
-		"4")
-			eval "$MENU_PATH/pkg-mgr.sh"
+		"9")
 			break
 			;;
 		*)
@@ -66,8 +64,14 @@ menu_screen()
 	done
 }
 
+if [ "$EUID" -ne 0 ] ; then
+	printf "\nPlease run as root!\n"
+	exit
+fi
+
 MENU_PATH="./menus"
-IP_BLOCK_PATH="$MENU_PATH/ip-block"
+IP_PATH="$MENU_PATH/ip"
+PASS_PATH="$MENU_PATH/pass"
 
 title_screen
 sleep 0.5
@@ -77,9 +81,10 @@ while : ; do
 	done_screen
 	case "${exitChoice^^}" in
 	"Y")
-		break
+		exit
 		;;
 	"N")
+		title_screen
 		;;
 	esac
 done
