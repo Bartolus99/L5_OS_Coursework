@@ -2,8 +2,9 @@
 by Josh Button
 
 What is it?
-A Powershell script with a GUI for configuration for Backing up and Restoring folders on Windows
+A Powershell script with a GUI for configuration of Folder Backup and Restoration on Windows!
 
+<br />
 <h1> UNIX Security Script </h1>
 by Bartolus99
 
@@ -15,7 +16,17 @@ A Bash script for Security stuff on Linux!
   <li>Blocking blacklisted IP addresses</li>
   <li>Generating secure passwords</li>
   <li>Checking password strength</li>
- </ul>
+  <li>File encryption</li>
+  <li>File decryption</li>
+</ul>
+<h2>Script background logic</h2>
+<ul>
+  <li>Main menu calls script files, depending on chosen option.</li>
+  <li>IP blocker downloads blacklist from <a href="http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt">myip.ms</a> and saves log in <code>./unix/src/menus/ip/logs</code>.</li>
+  <li>Password generator allows the user to choose if lower/uppercase alphanumeric characters or special characters, based on <a href="https://www.ibm.com/support/knowledgecenter/en/SSFPJS_8.5.7/com.ibm.wbpm.imuc.doc/topics/rsec_characters.html">IBM's valid username/password character list</a>, should be used.</li>
+  <li>Password checker adds to the complexity score, based on the password length, and variation of lower/uppercase letters and numbers.</li>
+  <li>File encryption/decryption uses <a href="https://www.gnupg.org/">GNU Privacy Guard</a>, A.K.A. <code>gpg</code>.</li>
+</ul>
 <br />
 <h1>Resources</h1>
 <ul>
