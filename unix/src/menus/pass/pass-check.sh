@@ -1,30 +1,21 @@
 #!/bin/bash
 
-progress_bar()
-{
-	printf "Loading... | "
-	for x in {1..53}; do
-		printf "#"
-		sleep .01
-	done ; echo
+title_screen() {
+	eval "$TITLE_PATH/title.sh $TITLE_PATH/pass-check"
 }
-title_screen()
-{
-	printf "\e[H\e[J\n"
-	cat titles/pass-check
-	printf "\n"
-	progress_bar
-}
+
+TITLE_PATH="./titles"
 
 title_screen
 
+printf "\n\e[37mIMPORTANT: \e[0mYour password will \e[1;31mNOT\e[0m be displayed or saved anywhere!\n"
 printf "\nEnter a password to check: "
 read -s password
 printf "\n"
 
 complexity="0"
 if [ "${#password}" -le 7 ] ; then
-	complexity="0"
+	complexity="-1"
 else
 	if [ "${#password}" -ge 10 ] ; then
 		complexity=$((complexity+1))
@@ -46,6 +37,10 @@ fi
 
 
 case "$complexity" in
+	"-1")
+		printf "\nYour password is \e[1;31mweak!\e[0m\n"
+		printf "You should make it longer!\n"
+		;;
 	"0"|"1")
 		printf "\nYour password is \e[1;31mweak!\e[0m\n"
 		printf "You should add more variation!\n"

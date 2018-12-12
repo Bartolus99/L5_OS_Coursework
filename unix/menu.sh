@@ -1,45 +1,32 @@
 #!/bin/bash
 
-progress_bar()
-{
-	printf "Loading... | "
-	for x in {1..53}; do
-		printf "#"
-		sleep .01
-	done ; echo
+title_screen() {
+	eval "$TITLE_PATH/title.sh $TITLE_PATH/security-menu"
 }
-title_screen()
-{
-	printf "\e[H\e[J\n"
-	cat titles/security-menu
-	printf "\n"
-	progress_bar
-}
-done_screen()
-{
+done_screen() {
 	while : ; do
-		printf "\nWould you like to exit? (Y/N): "
+		printf "\nWould you like to exit the menu? (Y/N): "
 		read exitChoice
 		
 		if [ "${exitChoice^^}" = "Y" ] || [ "${exitChoice^^}" = "N" ] ; then
 			break
-		else3
+		else
 			printf "Invalid value!\n"
 			printf "\nTry Again!"
 		fi
 	done
 }
-menu_screen()
-{
+menu_screen() {
 	printf "\n"
 	printf "1. Block blacklisted IP addresses\n"
 	printf "2. Password generator\n"
 	printf "3. Password checker\n"
+	printf "4. File encrypter\n"
+	printf "5. File decrypter\n"
 	printf "\n9. Quit\n"
-	printf "\n"
 
 	while : ; do
-		printf "Enter a number (1-4): "
+		printf "\nEnter a number (1-5): "
 		read menuChoice
 		case "$menuChoice" in
 		"1")
@@ -52,6 +39,14 @@ menu_screen()
 			;;
 		"3")
 			eval "$PASS_PATH/pass-check.sh"
+			break
+			;;
+		"4")
+			eval "$FILE_PATH/file-crypt.sh file-encrypt"
+			break
+			;;
+		"5")
+			eval "$FILE_PATH/file-crypt.sh file-decrypt"
 			break
 			;;
 		"9")
@@ -72,12 +67,16 @@ fi
 cd ./src
 
 MENU_PATH="./menus"
+TITLE_PATH="./titles"
 IP_PATH="$MENU_PATH/ip"
 PASS_PATH="$MENU_PATH/pass"
+FILE_PATH="$MENU_PATH/file"
 
 title_screen
+
 sleep 0.5
 
+printf "\nChoose which security option you would like to use:\n"
 while : ; do
 	menu_screen
 	done_screen
