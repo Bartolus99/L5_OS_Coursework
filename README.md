@@ -4,6 +4,19 @@ by Josh Button
 What is it?
 A Powershell script with a GUI for configuration of Folder Backup and Restoration on Windows!
 
+<h2>Includes</h2>
+<ul>
+  <li>Check boxes to choose which folder to back up</li>
+  <li>Two custom paths to backup</li>
+  <li>Choose folder to back up to</li>
+  <li>Backup to ZIP File</li>
+  <li>Restore from ZIP File</li>
+</ul>
+
+<h2>Noteable script logic</h2>
+<ul>
+
+</ul>
 <br />
 <h1> UNIX Security Script </h1>
 by Bartolus99
