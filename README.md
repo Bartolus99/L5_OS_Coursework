@@ -15,7 +15,6 @@ A Bash script for Security stuff on Linux!
   <li>Blocking blacklisted IP addresses</li>
   <li>Generating secure passwords</li>
   <li>Checking password strength</li>
-  <li>File encryption/decryption</li>
  </ul>
 <br />
 <h1>Resources</h1>
