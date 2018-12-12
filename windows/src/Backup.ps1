@@ -16,14 +16,14 @@ $PicturesBackup 			 = [System.Convert]::ToBoolean($ConfigFile.Backup.Pictures.to
 
 
 #Retrieve folder paths
-$BackupLocation				 = $ConfigFile.Backup.BackupLocation #Pulls users backup location chice from XML file
+$BackupLocation				 = $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
 $CustomPath1                 = $ConfigFile.Backup.CustomFolder1.path #Pulls custom folder string from XML file
 $CustomPath2                 = $ConfigFile.Backup.CustomFolder2.path #Pulls custom folder string from XML file
-$DocumentsPath 				 = [environment]::getfolderpath("mydocuments")
-$MusicPath 					 = [environment]::getfolderpath("mymusic")
-$DesktopPath 				 = [environment]::getfolderpath("desktop")
-$VideosPath 				 = [environment]::getfolderpath("myvideos")
-$PicturesPath 				 = [environment]::getfolderpath("mypictures")
+$DocumentsPath 				 = [environment]::getfolderpath("mydocuments") 
+$MusicPath 					 = [environment]::getfolderpath("mymusic") 
+$DesktopPath 				 = [environment]::getfolderpath("desktop") 
+$VideosPath 				 = [environment]::getfolderpath("myvideos") 
+$PicturesPath 				 = [environment]::getfolderpath("mypictures") 
 
 
 #Create array for looping through folders to backup. Odd items are the users choice to backup the folder or not, even items are the folder paths.
@@ -48,25 +48,9 @@ foreach ($item in $toBackUpList) #Loops through our array and each loop holds th
 		if ($backupTrue -eq $true) #Checks if a userchoice has been true
 		{
 			clear
-			Compress-Archive -Path $item -Update -DestinationPath $item"\backup.zip" #BacksUp the path passed from the array into a zip file
+			Compress-Archive -Path $item -Update -DestinationPath $BackupLocation"\Backup.zip" #BacksUp the path passed from the array into a zip file
 			$backupTrue = $false #Sets the flag back to false ready for the next userchoice check
 			New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Backup", "$item finished backing up!" #Makes a windows notification
 		}
 	}
 }
-
-#DIALOG BOX
-#[System.Windows.Forms.Messagebox]::Show("$DocumentsBackup`n$MusicBackup`n$PicturesBackup`n$VideosBackup`n$DesktopBackup",[System.Windows.Forms.MessageBoxButtons]::OKCancel)
-#
-#USB DRIVE CHECK CODE##
-#
-#do {
-#  	$UsbDisk = gwmi win32_diskdrive | ?{$_.interfacetype -eq "USB"} | %{gwmi -Query "ASSOCIATORS OF {Win32_DiskDrive.DeviceID=`"$($_.DeviceID.replace('\','\\'))`"} WHERE AssocClass = Win32_DiskDriveToDiskPartition"} |  %{gwmi -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID=`"$($_.DeviceID)`"} WHERE AssocClass = Win32_LogicalDiskToPartition"} | %{$_.deviceid} 
-#	if ( $UsbDisk -eq $null ) {  
-#		pause("Press any key to search again!")
-#		# DO NOT RUN THIS WITHOUT SOME SORT OF "PAUSE" function, otherwise this will loop until a USB stick is inserted.
-#	}
-#}
-#while ($UsbDisk -eq $null)
-#
-# After the do loop, $UsbDisk will be the name of the drive letter (example: E:)

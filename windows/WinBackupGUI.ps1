@@ -168,14 +168,13 @@ $BackupButton.location           = New-Object System.Drawing.Point(275,182)
 $BackupButton.Font               = 'Comic Sans MS,10,style=Bold'
 $BackupButton.ForeColor          = "#ff0000"
 
-
 $BackupLocationButton            = New-Object system.Windows.Forms.Button
 $BackupLocationButton.text       = "BACKUP LOCATION"
-$BackupLocationButton.width      = 140
+$BackupLocationButton.width      = 145
 $BackupLocationButton.height     = 30
 $BackupLocationButton.location   = New-Object System.Drawing.Point(193,70)
 $BackupLocationButton.Font       = 'Comic Sans MS,10,style=Bold'
-$BackupLocationButton.ForeColor  = "#4a90e2"
+$BackupLocationButton.ForeColor  = "#00FF00"
 
 $WinForm1                        = New-Object system.Windows.Forms.Form
 $WinForm1.ClientSize             = '349,221'
@@ -201,6 +200,7 @@ Function pause ($message)
     $x = $host.ui.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 
+#https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
 Function Get-Folder($initialDirectory)
 {
     [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null

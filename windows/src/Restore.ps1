@@ -1,7 +1,23 @@
 # Author - Joshua Button - U1628860
 
-$BackupLocation		= $ConfigFile.Backup.BackupLocation #Pulls users backup location chice from XML file
+$BackupLocation		= $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
 
+#https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
+Function Get-Folder($initialDirectory)
+{
+    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null
 
-Expand-Archive -LiteralPath $BackupLocation\Backup.zip -DestinationPath $RestorePath #Takes the file
+    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
+    $foldername.Description = "Select where to restore your files to:"
+    $foldername.rootfolder = "MyComputer"
+
+    if($foldername.ShowDialog() -eq "OK")
+    {
+        $folder += $foldername.SelectedPath
+    }
+    return $folder
+}
+
+$RestorePath = Get-Folder
+Expand-Archive -LiteralPath $BackupLocation\Backup.zip -DestinationPath $RestorePath\RestoredFiles #Takes the file
 New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
