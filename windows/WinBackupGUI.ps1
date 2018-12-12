@@ -100,6 +100,7 @@ $CustomFolder1.width             = 120
 $CustomFolder1.height            = 20
 $CustomFolder1.location          = New-Object System.Drawing.Point(34,170)
 $CustomFolder1.Font              = 'Microsoft Sans Serif,10'
+$CustomFolder1.ReadOnly			 = $true
 
 $CustomFolder2                   = New-Object system.Windows.Forms.TextBox
 $CustomFolder2.multiline         = $false
@@ -108,6 +109,7 @@ $CustomFolder2.width             = 120
 $CustomFolder2.height            = 20
 $CustomFolder2.location          = New-Object System.Drawing.Point(34,190)
 $CustomFolder2.Font              = 'Microsoft Sans Serif,10'
+$CustomFolder2.ReadOnly			 = $true
 
 $CustomCB1                       = New-Object system.Windows.Forms.CheckBox
 $CustomCB1.AutoSize              = $false
@@ -170,11 +172,11 @@ $BackupButton.ForeColor          = "#ff0000"
 
 $BackupLocationButton            = New-Object system.Windows.Forms.Button
 $BackupLocationButton.text       = "BACKUP LOCATION"
-$BackupLocationButton.width      = 145
+$BackupLocationButton.width      = 149
 $BackupLocationButton.height     = 30
 $BackupLocationButton.location   = New-Object System.Drawing.Point(193,70)
 $BackupLocationButton.Font       = 'Comic Sans MS,10,style=Bold'
-$BackupLocationButton.ForeColor  = "#00FF00"
+$BackupLocationButton.ForeColor  = "#33cc33"
 
 $WinForm1                        = New-Object system.Windows.Forms.Form
 $WinForm1.ClientSize             = '349,221'
@@ -192,13 +194,6 @@ $Form.controls.AddRange(@($DocumentsCB,$Logo,$MusicCB,$CustomFolder1,$CustomFold
 ###########
 #Functions#
 ###########
-
-#https://stackoverflow.com/questions/20886243/press-any-key-to-continue 
-Function pause ($message)
-{
-    Write-Host "$message" -ForegroundColor Yellow
-    $x = $host.ui.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-}
 
 #https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
 Function Get-Folder($initialDirectory)
@@ -253,11 +248,28 @@ $RestoreButton.Add_Click(
         }
     )	
 	
-	
 $BackupLocationButton.Add_Click(
 		{
 		$BackupLocation = Get-Folder
 		$ConfigFile.Backup.BackupLocation = $BackupLocation
+		$ConfigFile.Save($ConfigFilePath)
+		}
+	)
+	
+$CustomFolder1.Add_Click(
+		{
+		$CustomFolder1.text = Get-Folder
+		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text
+		$CustomCB1.Checked = $true
+		$ConfigFile.Save($ConfigFilePath)
+		}
+	)
+	
+$CustomFolder2.Add_Click(
+		{
+		$CustomFolder2.text = Get-Folder
+		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder2.text
+		$CustomCB2.Checked = $true	
 		$ConfigFile.Save($ConfigFilePath)
 		}
 	)
@@ -266,19 +278,3 @@ $BackupLocationButton.Add_Click(
 #Progam Begins#
 ###############
 $Form.ShowDialog()
-
-#DIALOG BOX
-#[System.Windows.Forms.Messagebox]::Show("$DocumentsBackup`n$MusicBackup`n$PicturesBackup`n$VideosBackup`n$DesktopBackup",[System.Windows.Forms.MessageBoxButtons]::OKCancel)
-#
-#USB DRIVE CHECK CODE##
-#
-#do {
-#  	$UsbDisk = gwmi win32_diskdrive | ?{$_.interfacetype -eq "USB"} | %{gwmi -Query "ASSOCIATORS OF {Win32_DiskDrive.DeviceID=`"$($_.DeviceID.replace('\','\\'))`"} WHERE AssocClass = Win32_DiskDriveToDiskPartition"} |  %{gwmi -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID=`"$($_.DeviceID)`"} WHERE AssocClass = Win32_LogicalDiskToPartition"} | %{$_.deviceid} 
-#	if ( $UsbDisk -eq $null ) {  
-#		pause("Press any key to search again!")
-#		# DO NOT RUN THIS WITHOUT SOME SORT OF "PAUSE" function, otherwise this will loop until a USB stick is inserted.
-#	}
-#}
-#while ($UsbDisk -eq $null)
-#
-# After the do loop, $UsbDisk will be the name of the drive letter (example: E:)

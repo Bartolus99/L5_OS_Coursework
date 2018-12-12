@@ -5,6 +5,9 @@
 ############
 #https://redmondmag.com/articles/2016/01/15/for-each-loop-in-powershell.aspx - FOR EACH LOOP
 
+####################
+#Load Prerequisites#
+#################### 
 #Retrieve users backup choices fron Config.xml
 $DocumentsBackup		     = [System.Convert]::ToBoolean($ConfigFile.Backup.Documents.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $MusicBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
@@ -36,6 +39,9 @@ $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath,
 								$CustomBackup2, $CustomPath2
 								) 
 
+###############
+#Progam Begins#
+###############
 $backupTrue = $false #Sets our Backup Identifier to false
 foreach ($item in $toBackUpList) #Loops through our array and each loop holds the current item as $item so the same operation is done to each item
 {

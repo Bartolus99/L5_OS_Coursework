@@ -1,7 +1,13 @@
 # Author - Joshua Button - U1628860
 
+####################
+#Load Prerequisites#
+#################### 
 $BackupLocation		= $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
 
+###########
+#Functions#
+###########
 #https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
 Function Get-Folder($initialDirectory)
 {
@@ -18,6 +24,9 @@ Function Get-Folder($initialDirectory)
     return $folder
 }
 
+###############
+#Progam Begins#
+###############
 $RestorePath = Get-Folder
 Expand-Archive -LiteralPath $BackupLocation\Backup.zip -DestinationPath $RestorePath\RestoredFiles #Takes the file
 New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
