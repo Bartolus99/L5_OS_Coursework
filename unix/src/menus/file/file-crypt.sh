@@ -66,7 +66,8 @@ final_path=""
 while : ; do
 	printf "\nEnter the absolute folder path: "
 	read path
-	if [ -d "$path" ] ; then
+
+	if [ -d "$path" ] && [[ ! "$path" = \.* ]] ; then
 		final_path="$path"
 		break
 	else
