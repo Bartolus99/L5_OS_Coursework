@@ -65,6 +65,9 @@ while [ "$isValid" = 1 ] ; do
 		if [ ! -z "$values" ] ; then
 			printf "Invalid values!\n"
 			printf "\nTry again!"
+		elif [ "${lowerAz^^}" == "N" ] && [ "${upperAz^}" == "N" ] && [ "${numbers^^}" == "N" ] && [ "${nonAlpha^^}" == "N" ] ; then
+			printf "Invalid values!\n"
+			printf "\nTry again!"
 		else
 			break
 		fi	
