@@ -32,7 +32,7 @@ A Bash script for Security stuff on Linux!
   <li>File encryption</li>
   <li>File decryption</li>
 </ul>
-<h2>Script background logic</h2>
+<h2>Noteable script logic</h2>
 <ul>
   <li>Main menu calls script files, depending on chosen option.</li>
   <li>IP blocker downloads blacklist from <a href="http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt">myip.ms</a> and saves log in <code>./unix/src/menus/ip/logs</code>.</li>
