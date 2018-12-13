@@ -1,3 +1,7 @@
+<!-- Windows Backup Powershell Script with GUI
+Author Joshua Button - U1628860 - www.JoshuaButton.co.uk 
+Co-Author Bartosz Stasik
+-->
 <Backup>
   <Documents>
     <toBackup>True</toBackup>

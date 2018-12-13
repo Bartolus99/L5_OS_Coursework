@@ -1,4 +1,5 @@
-# Author - Joshua Button - U1628860
+# Author Joshua Button - U1628860 - www.JoshuaButton.co.uk
+# Co-Author Bartosz Stasik
 
 ############
 #REFERENCES#
