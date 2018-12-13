@@ -46,19 +46,19 @@ case "$complexity" in
 		printf "You should add more variation!\n"
 		;;
 	"2")
-		printf "\nYour password is \e[208mmedium!\e[0m\n"
+		printf "\nYour password is \e[1;33mmedium!\e[0m\n"
 		printf "It might work for a while, but you should increase the complexity!\n"
 		;;
 	"3")
-		printf "\nYour password is \e[1;33mstrong!\e[0m\n"
+		printf "\nYour password is \e[1;32mstrong!\e[0m\n"
 		printf "You might be good, but you should still increase the complexity!\n"
 		;;
 	"4")
-		printf "\nYour password is \e[1;32mvery strong!\e[0m\n"
+		printf "\nYour password is \e[1;34mvery strong!\e[0m\n"
 		printf "Well done! Perhaps you could still add more complexity?\n"
 		;;
 	"5")
-		printf "\nYour password is \e[1;34multra strong!\e[0m\n"
+		printf "\nYour password is \e[1;36multra strong!\e[0m\n"
 		printf "Epic job! There shouldn\'t be more to it other than making it longer!\n"
 		;;
 	*)
