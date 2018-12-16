@@ -33,9 +33,9 @@ Function Get-Folder() #Defines name of function
     return $folder #Returns either the chosen path or "CANCEL"
 }
 
-###############
+################
 #Program Begins#
-###############
+################
 $RestorePath = Get-Folder #Calls Folder Browser Dialog Function
 if($RestorePath -eq "CANCEL") #Checks if Folder Browser Dialog returned a path or if user canceled
 {
