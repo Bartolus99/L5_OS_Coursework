@@ -1,5 +1,5 @@
 # Author Joshua Button - U1628860 - www.JoshuaButton.co.uk
-# Co-Author Bartosz Stasik
+# Co-Author Bartosz Stasik - U1730148
 
 ############
 #References#
@@ -15,6 +15,7 @@
 #Load Prerequisites#
 #################### 
 [Net.ServicePointManager]::SecurityProtocol::Tls12 #Powershell uses TLS1.0 by default. This is now deprecated and many public webpages will not allow 1.0 request so we force Powershell to use 1.2
+clear #Clear Powershell console to keep it clean (Setting TLS leaves a message in console)
 Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
 
 $ConfigFilePath = Join-Path $PSScriptRoot '\src\Config.xml' #Sets Folder for Config file to be stored in. 
@@ -213,6 +214,10 @@ Function Get-Folder($initialDirectory)
     {
         $folder += $foldername.SelectedPath
     }
+		else
+	{
+		$folder = "CANCEL"
+	}
     return $folder
 }
 
@@ -223,63 +228,86 @@ Function Get-Folder($initialDirectory)
 $BackupButton.Add_Click(
         {    
 		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be convereted to strings to be stored.
-		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked)
-		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked)
-		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked)
-		$ConfigFile.Backup.Videos.toBackup = [System.Convert]::ToString($VideosCB.checked)
-		$ConfigFile.Backup.Desktop.toBackup = [System.Convert]::ToString($DesktopCB.checked)
-		$ConfigFile.Backup.CustomFolder1.toBackup = [System.Convert]::ToString($CustomCB1.checked)
-		$ConfigFile.Backup.CustomFolder2.toBackup = [System.Convert]::ToString($CustomCB2.checked)
-		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text  
-		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text  
-		$ConfigFile.Save($ConfigFilePath)
-		&(Join-Path $PSScriptRoot '\src\Backup.ps1')
+		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Videos.toBackup = [System.Convert]::ToString($VideosCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Desktop.toBackup = [System.Convert]::ToString($DesktopCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.CustomFolder1.toBackup = [System.Convert]::ToString($CustomCB1.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.CustomFolder2.toBackup = [System.Convert]::ToString($CustomCB2.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Writes string from Textbox to ConfigFile 
+		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text #Writes string from Textbox to ConfigFile 
+		$ConfigFile.Save($ConfigFilePath) #Config file saved
+		&(Join-Path $PSScriptRoot '\src\Backup.ps1') #Join-Path connects the root diresctory with the path to the restore program so "&" can be used to execute the script.kkknmnnmn
 		}
     )
 
 $RestoreButton.Add_Click(
         {    
 		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be convereted to strings to be stored.
-		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked)
-		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked)
-		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked)
-		$ConfigFile.Backup.Videos.toBackup = [System.Convert]::ToString($VideosCB.checked)
-		$ConfigFile.Backup.Desktop.toBackup = [System.Convert]::ToString($DesktopCB.checked)
-		$ConfigFile.Backup.CustomFolder1.toBackup = [System.Convert]::ToString($CustomCB1.checked)
-		$ConfigFile.Backup.CustomFolder2.toBackup = [System.Convert]::ToString($CustomCB2.checked)
-		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text  
-		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text  
-		$ConfigFile.Save($ConfigFilePath)
-		&(Join-Path $PSScriptRoot '\src\Restore.ps1')
+		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Videos.toBackup = [System.Convert]::ToString($VideosCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.Desktop.toBackup = [System.Convert]::ToString($DesktopCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.CustomFolder1.toBackup = [System.Convert]::ToString($CustomCB1.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.CustomFolder2.toBackup = [System.Convert]::ToString($CustomCB2.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
+		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Writes string from Textbox to ConfigFile 
+		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text #Writes string from Textbox to ConfigFile  
+		$ConfigFile.Save($ConfigFilePath) #Config file saved
+		&(Join-Path $PSScriptRoot '\src\Restore.ps1') #Join-Path connects the root diresctory with the path to the restore program so "&" can be used to execute the script.
         }
-    )	
+    )	 
 	
 #Button displays a Folder Selection dialog
 $BackupLocationButton.Add_Click(
 		{
-		$BackupLocation = Get-Folder #Folder selection written to variable
-		$ConfigFile.Backup.BackupLocation = $BackupLocation #Varialbe written to XML file
-		$ConfigFile.Save($ConfigFilePath) #Config File Saved
+			$BackupLocation = Get-Folder #Folder selection written to variable
+			if($BackupLocation = "CANCEL")
+			{
+				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+			}
+			else
+			{
+				$ConfigFile.Backup.BackupLocation = $BackupLocation #Varialbe written to XML file
+				$ConfigFile.Save($ConfigFilePath) #Config File Saved
+			}
 		}
 	)
 
 #Clicking the text box displays a Folder Selection dialog.	
 $CustomFolder1.Add_Click(
 		{
-		$CustomFolder1.text = Get-Folder #Folder choice is wrttten into text box
-		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Choice is written to config file
-		$CustomCB1.Checked = $true #Check box is set to true to add folder to backup list
-		$ConfigFile.Save($ConfigFilePath) #Config file saved
+			$FolderDialogReturn = Get-Folder #Folder choice is wrttten into text box
+			if($RestorePath = "CANCEL")
+			{
+				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+			}
+			else
+			{
+				$CustomFolder1.text = $FolderDialogReturn
+				$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Choice is written to config file
+				$CustomCB1.Checked = $true #Check box is set to true to add folder to backup list
+				$ConfigFile.Save($ConfigFilePath) #Config file saved
+			}
 		}
 	)
 
 #Clicking the text box displays a Folder Selection dialog	
 $CustomFolder2.Add_Click(
 		{
-		$CustomFolder2.text = Get-Folder #Folder choice is wrttten into text box
-		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder2.text #Choice is written to config file
-		$CustomCB2.Checked = $true	#Check box is set to true to add folder to backup list
-		$ConfigFile.Save($ConfigFilePath) #Config file saved
+			$FolderDialogReturn = Get-Folder #Folder choice is written into text box
+			if($RestorePath = "CANCEL")
+			{
+				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+			}
+			else
+			{
+				$CustomFolder2.text = $FolderDialogReturn
+				$ConfigFile.Backup.CustomFolder1.path = $CustomFolder2.text #Choice is written to config file
+				$CustomCB2.Checked = $true	#Check box is set to true to add folder to backup list
+				$ConfigFile.Save($ConfigFilePath) #Config file saved
+			}
 		}
 	)
 		

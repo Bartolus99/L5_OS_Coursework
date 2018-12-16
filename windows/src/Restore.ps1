@@ -1,5 +1,5 @@
 # Author Joshua Button - U1628860 - www.JoshuaButton.co.uk
-# Co-Author Bartosz Stasik
+# Co-Author Bartosz Stasik - U1730148
 
 ####################
 #Load Prerequisites#
@@ -22,12 +22,23 @@ Function Get-Folder($initialDirectory)
     {
         $folder += $foldername.SelectedPath
     }
+	else
+	{
+		$folder = "CANCEL"
+	}
     return $folder
 }
 
 ###############
 #Progam Begins#
 ###############
-$RestorePath = Get-Folder
-Expand-Archive -LiteralPath $BackupLocation\Backup.zip -DestinationPath $RestorePath\RestoredFiles #Takes the file
-New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
+$RestorePath = Get-Folder #
+if($RestorePath = "CANCEL")
+{
+		[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+}
+else
+{
+	Expand-Archive -LiteralPath $BackupLocation\Backup.zip -DestinationPath $RestorePath\RestoredFiles #Takes the file
+	New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
+}
