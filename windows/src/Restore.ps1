@@ -2,7 +2,7 @@
 # Co-Author Bartosz Stasik - U1730148
 
 ############
-#REFERENCES#
+#Refernces#
 ############
 
 #https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
