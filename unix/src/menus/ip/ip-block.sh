@@ -9,7 +9,9 @@
 ############
 
 # ANSI Escape Sequences - https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
+# Blacklist Source - http://myip.ms/files/blacklist/htaccess/latest_blacklist.txt
 # cURL - https://curl.haxx.se/docs/manpage.html
+# Device IP - https://ipinfo.io/ip
 # Incrementing Variables - https://askubuntu.com/questions/385528/how-to-increment-a-variable-in-bash
 # IP Route - http://linux-ip.net/html/tools-ip-route.html
 # Unix Exit Codes - https://shapeshed.com/unix-exit-codes/
