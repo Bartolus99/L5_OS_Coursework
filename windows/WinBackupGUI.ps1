@@ -10,50 +10,52 @@
 #PoshGUI - Powershell GUI Builder http://www.PoshGUI.com 
 #Invoke-WebRequest https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-6
 #Get-Folder Dialog https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
+#Windows logo modified from http://logos.wikia.com/wiki/File:Old-windows-logo.png
 
 ####################
 #Load Prerequisites#
 #################### 
 [Net.ServicePointManager]::SecurityProtocol::Tls12 #Powershell uses TLS1.0 by default. This is now deprecated and many public webpages will not allow 1.0 request so we force Powershell to use 1.2
 clear #Clear Powershell console to keep it clean (Setting TLS leaves a message in console)
-Install-Module -Name BurntToast #This install's a Powershell module for Win10 Notification creation
+Install-Module -Name BurntToast #This installs a Powershell module for Win10 Notification creation
 
+#Powershell doesn't use relative paths very well so we use Join-Path to connect $PSScriptRoot (a powershell command to get root dir of script) with the rest of the path
 $ConfigFilePath = Join-Path $PSScriptRoot '\src\Config.xml' #Sets Folder for Config file to be stored in. 
 
 $BackupFilePath = Join-Path $PSScriptRoot '\src\Backup.ps1' #Sets Path for Backup Script
 
 $RestoreFilePath = Join-Path $PSScriptRoot '\src\Restore.ps1' #Sets Path for Restore Script
 
-$SrcDirPath = Join-Path $PSScriptRoot '\src'
+$SrcDirPath = Join-Path $PSScriptRoot '\src' #Sets Path for src folder in root
 
-#Workaround for powershell not accepting relative paths for images. 
-$logoPath = Join-Path $PSScriptRoot '\src\WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
+$logoPath = Join-Path $PSScriptRoot '\src\WinBackupLogo.png' #Sets path for scripts logo in GUI and Noticiations
 
-If(!(test-path $SrcDirPath)) #Checks if src directory exhists in root
+#Checks if src directory exists in root
+If(!(test-path $SrcDirPath)) 
 {
-	mkdir src #Creates "src" directory in root if it does not exhist
+	mkdir src #Creates "src" directory in root
 	clear #Clears screen to keep it clean
 }
 
-#Tests to see if ConfigFile.xml exhists. If it doesn't; it will downlaod it from GitHub.
+#Tests to see if ConfigFile.xml exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $ConfigFilePath)) 
 {
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Config.xml" -OutFile $ConfigFilePath
 }
 
-#Tests to see if Backup.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
+#Tests to see if Backup.ps1 exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $BackupFilePath)) 
 {
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $BackupFilePath
 }
 
-#Tests to see if Restore.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
+#Tests to see if Restore.ps1 exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $RestoreFilePath)) 
 {
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Restore.ps1" -OutFile $RestoreFilePath
 }
 
-#Tests to see if WinBackupLogo.png exhists. If it doesn't; it will downlaod it from GitHub.
+#Tests to see if WinBackupLogo.png exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $logoPath)) 
 {
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/WinBackupLogo.png" -OutFile $logoPath
@@ -69,7 +71,7 @@ If(!(test-path $logoPath))
 
 #This form was created using POSHGUI.com a free online GUI designer for PowerShell
 #PoshGUI was used to decide on initial layout of buttons and generate starting code
-#Then all edits and interactions were codded in Notepad++
+#Then all edits and button interactions were coded in Notepad++
 
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
@@ -210,23 +212,21 @@ $Form.controls.AddRange(@($DocumentsCB,$Logo,$MusicCB,$CustomFolder1,$CustomFold
 ###########
 
 #https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
-Function Get-Folder($initialDirectory)
+Function Get-Folder() #Defines name of function
 {
-    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null
-
-    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
-    $foldername.Description = "Select a folder to save your Backup to:"
-    $foldername.rootfolder = "MyComputer"
+    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog #Creates a Folder Browser Dialog as a new object
+    $foldername.Description = "Select a folder to save your Backup to:" #Sets Dialog description text
+    $foldername.rootfolder = "MyComputer" #Sets the starting dir for Folder Browser
 	
-    if($foldername.ShowDialog() -eq 'OK')
+    if($foldername.ShowDialog() -eq 'OK') #Check's to see if "OK" button was pressed
     {
-        $folder += $foldername.SelectedPath
+        $folder = $foldername.SelectedPath #Gets the selected path from dialog and stores it
     }
 	else
 	{
-		$folder = "CANCEL"
+		$folder = "CANCEL" #Sets $folder variable to CANCEL to notify that user closed the dialog or pressed cancel
 	}
-    return $folder
+    return $folder #Returns either the chosen path or "CANCEL"
 }
 
 ###############
@@ -235,7 +235,7 @@ Function Get-Folder($initialDirectory)
 
 $BackupButton.Add_Click(
         {    
-		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be convereted to strings to be stored.
+		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be converted to strings to be stored.
 		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
 		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
 		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
@@ -246,13 +246,13 @@ $BackupButton.Add_Click(
 		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Writes string from Textbox to ConfigFile 
 		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text #Writes string from Textbox to ConfigFile 
 		$ConfigFile.Save($ConfigFilePath) #Config file saved
-		&(Join-Path $PSScriptRoot '\src\Backup.ps1') #Join-Path connects the root diresctory with the path to the restore program so "&" can be used to execute the script.kkknmnnmn
+		&(Join-Path $PSScriptRoot '\src\Backup.ps1') #Join-Path connects the root diresctory with the path to the restore program so "&" can be used to execute the script.
 		}
     )
 
 $RestoreButton.Add_Click(
         {    
-		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be convereted to strings to be stored.
+		#When the button is pressed the current backup settings are saved to the Config.xml file. This can be seen below. Note the booleans must be converted to strings to be stored.
 		$ConfigFile.Backup.Documents.toBackup = [System.Convert]::ToString($DocumentsCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
 		$ConfigFile.Backup.Music.toBackup = [System.Convert]::ToString($MusicCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
 		$ConfigFile.Backup.Pictures.toBackup = [System.Convert]::ToString($PicturesCB.checked) #Converts boolean from Checkbox to a string to write to ConfigFile 
@@ -263,7 +263,7 @@ $RestoreButton.Add_Click(
 		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Writes string from Textbox to ConfigFile 
 		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text #Writes string from Textbox to ConfigFile  
 		$ConfigFile.Save($ConfigFilePath) #Config file saved
-		&(Join-Path $PSScriptRoot '\src\Restore.ps1') #Join-Path connects the root diresctory with the path to the restore program so "&" can be used to execute the script.
+		&(Join-Path $PSScriptRoot '\src\Restore.ps1') #Join-Path connects the root directory with the path to the restore program so "&" can be used to execute the script.
         }
     )	 
 	
@@ -271,15 +271,15 @@ $RestoreButton.Add_Click(
 $BackupLocationButton.Add_Click(
 		{
 			$BackupLocation = Get-Folder #Folder selection written to variable
-			if($BackupLocation -eq "CANCEL")
+			if($BackupLocation -eq "CANCEL") #Checks if Get-Folder returned a path or "CANCEL"
 			{
-				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP") #Notifies user that they didn't select a path
 			}
 			else
 			{
-				$ConfigFile.Backup.BackupLocation = $BackupLocation #Varialbe written to XML file
+				$ConfigFile.Backup.BackupLocation = $BackupLocation #Variable written to XML file
 				$ConfigFile.Save($ConfigFilePath) #Config File Saved
-				[System.Windows.Forms.MessageBox]::Show("Backups will now de saved to $BackupLocation\Backup.zip", "WINDOWS BACKUP")
+				[System.Windows.Forms.MessageBox]::Show("Backups will now de saved to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
 			}
 		}
 	)
@@ -287,14 +287,14 @@ $BackupLocationButton.Add_Click(
 #Clicking the text box displays a Folder Selection dialog.	
 $CustomFolder1.Add_Click(
 		{
-			$FolderDialogReturn = Get-Folder #Folder choice is wrttten into text box
-			if($FolderDialogReturn -eq "CANCEL")
+			$FolderDialogReturn = Get-Folder #Folder choice is written into text box
+			if($FolderDialogReturn -eq "CANCEL") #Checks if Get-Folder returned a path or "CANCEL"
 			{
-				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP") #Notifies user that they didn't select a path
 			}
 			else
 			{
-				$CustomFolder1.text = $FolderDialogReturn
+				$CustomFolder1.text = $FolderDialogReturn #Sets Text box text to users choice from Folder Selection Dialog
 				$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Choice is written to config file
 				$CustomCB1.Checked = $true #Check box is set to true to add folder to backup list
 				$ConfigFile.Save($ConfigFilePath) #Config file saved
@@ -306,13 +306,13 @@ $CustomFolder1.Add_Click(
 $CustomFolder2.Add_Click(
 		{
 			$FolderDialogReturn = Get-Folder #Folder choice is written into text box
-			if($FolderDialogReturn -eq "CANCEL")
+			if($FolderDialogReturn -eq "CANCEL") #Checks if Get-Folder returned a path or "CANCEL"
 			{
-				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
+				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP") #Notifies user that they didn't select a path
 			}
 			else
 			{
-				$CustomFolder2.text = $FolderDialogReturn
+				$CustomFolder2.text = $FolderDialogReturn #Sets Text box text to users choice from Folder Selection Dialog
 				$ConfigFile.Backup.CustomFolder1.path = $CustomFolder2.text #Choice is written to config file
 				$CustomCB2.Checked = $true	#Check box is set to true to add folder to backup list
 				$ConfigFile.Save($ConfigFilePath) #Config file saved
@@ -321,6 +321,6 @@ $CustomFolder2.Add_Click(
 	)
 		
 ###############
-#Progam Begins#
+#Program Begins#
 ###############
 $Form.ShowDialog() #Display GUI
