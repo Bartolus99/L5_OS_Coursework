@@ -24,8 +24,16 @@ $BackupFilePath = Join-Path $PSScriptRoot '\src\Backup.ps1' #Sets Path for Backu
 
 $RestoreFilePath = Join-Path $PSScriptRoot '\src\Restore.ps1' #Sets Path for Restore Script
 
+$SrcDirPath = Join-Path $PSScriptRoot '\src'
+
 #Workaround for powershell not accepting relative paths for images. 
 $logoPath = Join-Path $PSScriptRoot '\src\WinBackupLogo.png' #$PSScriptRoot gets the root directory path and then Join-Path apppends it to the file name.
+
+If(!(test-path $SrcDirPath)) #Checks if src directory exhists in root
+{
+	mkdir src #Creates "src" directory in root if it does not exhist
+	clear #Clears screen to keep it clean
+}
 
 #Tests to see if ConfigFile.xml exhists. If it doesn't; it will downlaod it from GitHub.
 If(!(test-path $ConfigFilePath)) 
@@ -36,19 +44,19 @@ If(!(test-path $ConfigFilePath))
 #Tests to see if Backup.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
 If(!(test-path $BackupFilePath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $ConfigFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $BackupFilePath
 }
 
 #Tests to see if Restore.ps1 exhists. If it doesn't; it will downlaod it from GitHub.
-If(!(test-path $BackupFilePath)) 
+If(!(test-path $RestoreFilePath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $ConfigFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Restore.ps1" -OutFile $RestoreFilePath
 }
 
 #Tests to see if WinBackupLogo.png exhists. If it doesn't; it will downlaod it from GitHub.
 If(!(test-path $logoPath)) 
 {
-	Invoke-WebRequest -Uri "https://github.com/Bartolus99/L5_OS_Coursework/blob/master/windows/src/WinBackupLogo.png?raw=true" -OutFile $logoPath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/WinBackupLogo.png" -OutFile $logoPath
 }
 
 
@@ -209,12 +217,12 @@ Function Get-Folder($initialDirectory)
     $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
     $foldername.Description = "Select a folder to save your Backup to:"
     $foldername.rootfolder = "MyComputer"
-
-    if($foldername.ShowDialog() -eq "OK")
+	
+    if($foldername.ShowDialog() -eq 'OK')
     {
         $folder += $foldername.SelectedPath
     }
-		else
+	else
 	{
 		$folder = "CANCEL"
 	}
@@ -263,7 +271,7 @@ $RestoreButton.Add_Click(
 $BackupLocationButton.Add_Click(
 		{
 			$BackupLocation = Get-Folder #Folder selection written to variable
-			if($BackupLocation = "CANCEL")
+			if($BackupLocation -eq "CANCEL")
 			{
 				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
 			}
@@ -271,6 +279,7 @@ $BackupLocationButton.Add_Click(
 			{
 				$ConfigFile.Backup.BackupLocation = $BackupLocation #Varialbe written to XML file
 				$ConfigFile.Save($ConfigFilePath) #Config File Saved
+				[System.Windows.Forms.MessageBox]::Show("Backups will now de saved to $BackupLocation\Backup.zip", "WINDOWS BACKUP")
 			}
 		}
 	)
@@ -279,7 +288,7 @@ $BackupLocationButton.Add_Click(
 $CustomFolder1.Add_Click(
 		{
 			$FolderDialogReturn = Get-Folder #Folder choice is wrttten into text box
-			if($RestorePath = "CANCEL")
+			if($FolderDialogReturn -eq "CANCEL")
 			{
 				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
 			}
@@ -297,7 +306,7 @@ $CustomFolder1.Add_Click(
 $CustomFolder2.Add_Click(
 		{
 			$FolderDialogReturn = Get-Folder #Folder choice is written into text box
-			if($RestorePath = "CANCEL")
+			if($FolderDialogReturn -eq "CANCEL")
 			{
 				[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
 			}

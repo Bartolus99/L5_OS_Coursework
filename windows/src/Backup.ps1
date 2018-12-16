@@ -54,8 +54,7 @@ foreach ($item in $toBackUpList) #Loops through array and during each loop holds
 	{
 		if ($backupTrue -eq $true) #Checks if a userchoice has been true
 		{
-			clear
-			Compress-Archive -Path $item -Update -DestinationPath $BackupLocation"\Backup.zip" #BacksUp the path passed from the array into a zip file
+			Compress-Archive -Path $item -Update -DestinationPath $BackupLocation\Backup.zip #BacksUp the path passed from the array into a zip file
 			$backupTrue = $false #Sets the flag back to false ready for the next userchoice check
 			New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Backup", "$item finished backing up!" #Makes a windows notification
 		}

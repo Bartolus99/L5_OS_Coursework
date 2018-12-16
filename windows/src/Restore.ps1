@@ -5,6 +5,7 @@
 #Load Prerequisites#
 #################### 
 $BackupLocation		= $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
+$BackupFilePath		= Join-Path $ConfigFile.Backup.BackupLocation '\Backup.zip'
 
 ###########
 #Functions#
@@ -18,7 +19,7 @@ Function Get-Folder($initialDirectory)
     $foldername.Description = "Select where to restore your files to:"
     $foldername.rootfolder = "MyComputer"
 
-    if($foldername.ShowDialog() -eq "OK")
+    if($foldername.ShowDialog() -eq "Ok")
     {
         $folder += $foldername.SelectedPath
     }
@@ -33,12 +34,19 @@ Function Get-Folder($initialDirectory)
 #Progam Begins#
 ###############
 $RestorePath = Get-Folder #
-if($RestorePath = "CANCEL")
+if($RestorePath -eq "CANCEL")
 {
 		[System.Windows.Forms.MessageBox]::Show("You didn't choose a folder", "WINDOWS BACKUP")
 }
 else
 {
-	Expand-Archive -LiteralPath $BackupLocation\Backup.zip -DestinationPath $RestorePath\RestoredFiles #Takes the file
-	New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
+	If(test-path $BackupFilePath) #Checks if Backup.zip exhists in the location specified in Config.xml
+	{
+		Expand-Archive -Force -LiteralPath $BackupFilePath -DestinationPath $RestorePath\RestoredFiles #Unzips backup.zip to users choosen location from Folder Dialgo
+		New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
+	}
+	else
+	{
+		[System.Windows.Forms.MessageBox]::Show("$BackupFilePath does not exhist. Use the ""Backup Location"" button to choose the folder containing Backup.zip", "WINDOWS BACKUP")
+	}
 }
