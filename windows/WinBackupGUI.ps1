@@ -320,7 +320,7 @@ $CustomFolder2.Add_Click(
 		}
 	)
 		
-###############
+################
 #Program Begins#
-###############
+################
 $Form.ShowDialog() #Display GUI
