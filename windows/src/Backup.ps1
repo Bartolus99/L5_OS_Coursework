@@ -40,9 +40,9 @@ $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath,
 								$CustomBackup2, $CustomPath2
 								) 
 
-###############
+################
 #Program Begins#
-###############
+################
 $backupTrue = $false #Sets our Backup Identifier "Flag" to false
 foreach ($item in $toBackUpList) #Loops through array and during each loop holds the current item as $item so the same operation is done to each item
 {
