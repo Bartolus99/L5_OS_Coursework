@@ -1,6 +1,12 @@
 # Author Joshua Button - U1628860 - www.JoshuaButton.co.uk
 # Co-Author Bartosz Stasik - U1730148
 
+############
+#REFERENCES#
+############
+
+#https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
+
 ####################
 #Load Prerequisites#
 #################### 
@@ -9,7 +15,7 @@ $BackupFilePath		= Join-Path $ConfigFile.Backup.BackupLocation '\Backup.zip' #ge
 ###########
 #Functions#
 ###########
-#https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
+
 Function Get-Folder() #Defines name of function
 {
     $foldername = New-Object System.Windows.Forms.FolderBrowserDialog #Creates a Folder Browser Dialog as a new object
