@@ -7,10 +7,10 @@ Co-Author Bartosz Stasik - U1730148
     <toBackup>True</toBackup>
   </Documents>
   <Music>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
   </Music>
   <Pictures>
-    <toBackup>False</toBackup>
+    <toBackup>True</toBackup>
   </Pictures>
   <Videos>
     <toBackup>False</toBackup>
@@ -23,8 +23,8 @@ Co-Author Bartosz Stasik - U1730148
     <path>D:\</path>
   </CustomFolder1>
   <CustomFolder2>
-    <toBackup>False</toBackup>
-    <path>Choose your own</path>
+    <toBackup>True</toBackup>
+    <path>C:\Windows\Boot\PCAT\en-US</path>
   </CustomFolder2>
-  <BackupLocation>C:\Users\Josh\Downloads</BackupLocation>
+  <BackupLocation>D:\</BackupLocation>
 </Backup>

@@ -1,6 +1,8 @@
 # Author Joshua Button - U1628860 - www.JoshuaButton.co.uk
 # Co-Author Bartosz Stasik - U1730148
 
+#This script was originally developed for 
+
 ############
 #References#
 ############
@@ -18,6 +20,10 @@
 [Net.ServicePointManager]::SecurityProtocol::Tls12 #Powershell uses TLS1.0 by default. This is now deprecated and many public webpages will not allow 1.0 request so we force Powershell to use 1.2
 clear #Clear Powershell console to keep it clean (Setting TLS leaves a message in console)
 Install-Module -Name BurntToast #This installs a Powershell module for Win10 Notification creation
+
+$BackupLocation = $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
+
+$BackupScript = Join-Path $PSScriptRoot '\src\Backup.ps1'
 
 #Powershell doesn't use relative paths very well so we use Join-Path to connect $PSScriptRoot (a powershell command to get root dir of script) with the rest of the path
 $ConfigFilePath = Join-Path $PSScriptRoot '\src\Config.xml' #Sets Folder for Config file to be stored in. 
@@ -65,9 +71,9 @@ If(!(test-path $logoPath))
 
 [xml]$ConfigFile = Get-Content -path $ConfigFilePath #Pulls Config file and reads it ready to be queried
 
-###########
-#BUILD GUI#
-###########
+###############
+#MAIN MENU GUI#
+###############
 
 #This form was created using POSHGUI.com a free online GUI designer for PowerShell
 #PoshGUI was used to decide on initial layout of buttons and generate starting code
@@ -207,6 +213,75 @@ $WinForm2.TopMost                = $false
 #The order of this array is the order the form items will be drawn in
 $Form.controls.AddRange(@($DocumentsCB,$Logo,$MusicCB,$CustomFolder1,$CustomFolder2,$CustomCB1,$DesktopCB,$VideosCB,$PicturesCB,$CustomCB2,$RestoreButton,$BackupButton,$BackupLocationButton)) 
 
+###############
+#SCHEDULER GUI#
+###############
+
+$TimeSel 						= New-Object System.Windows.Forms.Form
+$TimeSel.Text 					= 'Select a time'
+$TimeSel.Size 					= New-Object System.Drawing.Size(300,200)
+$TimeSel.StartPosition 			= 'CenterScreen'
+$TimeSel.FormBorderStyle 		= 'Fixed3D' #Disables resizing the form window
+$TimeSel.MaximizeBox 			= $false #Removes Maximize button
+$Timesel.MinimizeBox 			= $false #Removes Minimize button
+
+$OKButton 						= New-Object System.Windows.Forms.Button
+$OKButton.Location 				= New-Object System.Drawing.Point(75,120)
+$OKButton.Size 					= New-Object System.Drawing.Size(75,23)
+$OKButton.Text 					= 'OK'
+$OKButton.DialogResult 			= [System.Windows.Forms.DialogResult]::OK
+$TimeSel.AcceptButton 			= $OKButton
+$TimeSel.Controls.Add($OKButton)
+
+$CancelButton 					= New-Object System.Windows.Forms.Button
+$CancelButton.Location 			= New-Object System.Drawing.Point(150,120)
+$CancelButton.Size 				= New-Object System.Drawing.Size(75,23)
+$CancelButton.Text 				= 'Cancel'
+$CancelButton.DialogResult 		= [System.Windows.Forms.DialogResult]::Cancel
+$TimeSel.CancelButton 			= $CancelButton
+$TimeSel.Controls.Add($CancelButton)
+
+$label 							= New-Object System.Windows.Forms.Label
+$label.Location 				= New-Object System.Drawing.Point(10,20)
+$label.Size 					= New-Object System.Drawing.Size(280,30)
+$label.Text 					= 'Please select a time you want your daily backups to happen'
+$TimeSel.Controls.Add($label)
+
+$listBox 						= New-Object System.Windows.Forms.ListBox
+$listBox.Location 				= New-Object System.Drawing.Point(10,55)
+$listBox.Size 					= New-Object System.Drawing.Size(260,20)
+$listBox.Height 				= 80
+
+[void] $listBox.Items.Add('12am')
+[void] $listBox.Items.Add('1am')
+[void] $listBox.Items.Add('2am')
+[void] $listBox.Items.Add('3am')
+[void] $listBox.Items.Add('4am')
+[void] $listBox.Items.Add('5am')
+[void] $listBox.Items.Add('6am')
+[void] $listBox.Items.Add('7am')
+[void] $listBox.Items.Add('8am')
+[void] $listBox.Items.Add('9am')
+[void] $listBox.Items.Add('10am')
+[void] $listBox.Items.Add('11am')
+[void] $listBox.Items.Add('12pm')
+[void] $listBox.Items.Add('1pm')
+[void] $listBox.Items.Add('2pm')
+[void] $listBox.Items.Add('3pm')
+[void] $listBox.Items.Add('4pm')
+[void] $listBox.Items.Add('5pm')
+[void] $listBox.Items.Add('6pm')
+[void] $listBox.Items.Add('7pm')
+[void] $listBox.Items.Add('8pm')
+[void] $listBox.Items.Add('9pm')
+[void] $listBox.Items.Add('10pm')
+[void] $listBox.Items.Add('11pm')
+
+
+$TimeSel.Controls.Add($listBox)
+
+$TimeSel.Topmost = $true
+
 ###########
 #Functions#
 ###########
@@ -246,9 +321,17 @@ $BackupButton.Add_Click(
 		$ConfigFile.Backup.CustomFolder1.path = $CustomFolder1.text #Writes string from Textbox to ConfigFile 
 		$ConfigFile.Backup.CustomFolder2.path = $CustomFolder2.text #Writes string from Textbox to ConfigFile 
 		$ConfigFile.Save($ConfigFilePath) #Config file saved
-		&(Join-Path $PSScriptRoot '\src\Backup.ps1') #Join-Path connects the root diresctory with the path to the restore program so "&" can be used to execute the script.
+		$result = $TimeSel.ShowDialog()
+		if ($result -eq [System.Windows.Forms.DialogResult]::OK)
+			{
+				$time = $listBox.SelectedItem
+				$action = New-ScheduledTaskAction -Execute $BackupScript
+				$trigger =  New-ScheduledTaskTrigger -Daily -At $time
+				Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Daily backup"
+				[System.Windows.Forms.MessageBox]::Show("Backups will now be done daily at $time to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
+			}
 		}
-    )
+	)
 
 $RestoreButton.Add_Click(
         {    
@@ -323,4 +406,12 @@ $CustomFolder2.Add_Click(
 ################
 #Program Begins#
 ################
-$Form.ShowDialog() #Display GUI
+if ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+{
+	$Form.ShowDialog() #Display GUI
+}
+else
+{
+  Write-Output "Please run the Script in a Elevated Powershell."
+}
+
