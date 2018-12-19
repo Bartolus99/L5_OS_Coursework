@@ -40,25 +40,25 @@ If(!(test-path $SrcDirPath))
 #Tests to see if ConfigFile.xml exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $ConfigFilePath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Config.xml" -OutFile $ConfigFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/Submitted/windows/src/Config.xml" -OutFile $ConfigFilePath
 }
 
 #Tests to see if Backup.ps1 exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $BackupFilePath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Backup.ps1" -OutFile $BackupFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/Submitted/windows/src/Backup.ps1" -OutFile $BackupFilePath
 }
 
 #Tests to see if Restore.ps1 exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $RestoreFilePath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/Restore.ps1" -OutFile $RestoreFilePath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/Submitted/src/Restore.ps1" -OutFile $RestoreFilePath
 }
 
 #Tests to see if WinBackupLogo.png exists. If it doesn't; it will download it from GitHub.
 If(!(test-path $logoPath)) 
 {
-	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/WinBackupLogo.png" -OutFile $logoPath
+	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/Submitted/windows/src/WinBackupLogo.png" -OutFile $logoPath
 }
 
 
