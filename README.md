@@ -1,3 +1,19 @@
+<h1>CN5103 - Operating Systems - University of East London</h1>
+<h2>Brief</h2>
+You are required to program TWO shell scripts, one which executes in a UNIX environment and one which executes in a Windows environment.
+Your scripts must satisfy the following requirements:
+
+1.	They must perform an operating system routine, which is based on a useful system administration function.
+
+2.	They may be written in whatever shell scripting language you choose, as long as you do not use the same scripting language for both the Unix and Windows scripts.
+
+3.	You may use examples of scripts that you find in printed documentation and on the Web as the starting point for your own scripts.
+
+You will be required to demonstrate your work towards the end of the module at a time to be specified by the module leader via Moodle.
+
+<h2>Our Submission</h2>
+<a href="https://github.com/Bartolus99/L5_OS_Coursework/tree/Submitted">Here</a> you will find a branch at the state the Repo was in when we submitted our work. The Master branch continues to be developed for fun.
+
 <h1> Windows Backup Script </h1>
 by Josh Button
 
