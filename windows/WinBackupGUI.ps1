@@ -1,7 +1,8 @@
 # Author Joshua Button - U1628860 - www.JoshuaButton.co.uk
 # Co-Author Bartosz Stasik - U1730148
 
-#This script was originally developed for 
+#This script was originally developed for a University Project at UEL
+#The originaly submitted script can be found on github https://github.com/Bartolus99/L5_OS_Coursework/tree/Submitted
 
 ############
 #References#
@@ -21,7 +22,6 @@
 clear #Clear Powershell console to keep it clean (Setting TLS leaves a message in console)
 Install-Module -Name BurntToast #This installs a Powershell module for Win10 Notification creation
 
-$BackupLocation = $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
 
 $BackupScript = Join-Path $PSScriptRoot '\src\Backup.ps1'
 
@@ -67,9 +67,9 @@ If(!(test-path $logoPath))
 	Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Bartolus99/L5_OS_Coursework/master/windows/src/WinBackupLogo.png" -OutFile $logoPath
 }
 
-
-
 [xml]$ConfigFile = Get-Content -path $ConfigFilePath #Pulls Config file and reads it ready to be queried
+
+$BackupLocation = $ConfigFile.Backup.BackupLocation #Pulls users backup location choice from XML file
 
 ###############
 #MAIN MENU GUI#
@@ -327,8 +327,17 @@ $BackupButton.Add_Click(
 				$time = $listBox.SelectedItem
 				$action = New-ScheduledTaskAction -Execute $BackupScript
 				$trigger =  New-ScheduledTaskTrigger -Daily -At $time
-				Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Daily backup"
-				[System.Windows.Forms.MessageBox]::Show("Backups will now be done daily at $time to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
+				$Task = Get-ScheduledTask
+				if ($Task -like '*Backup Script*') {
+					Unregister-ScheduledTask -TaskName "Backup Script" -Confirm:$false
+					Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Daily backup"
+					[System.Windows.Forms.MessageBox]::Show("Backups will now be done daily at $time to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
+
+				}
+				else{
+					Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Daily backup"
+					[System.Windows.Forms.MessageBox]::Show("Congratualtions you have succesfully set up your Backups. They will happen daily at $time to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
+				}
 			}
 		}
 	)
@@ -362,7 +371,7 @@ $BackupLocationButton.Add_Click(
 			{
 				$ConfigFile.Backup.BackupLocation = $BackupLocation #Variable written to XML file
 				$ConfigFile.Save($ConfigFilePath) #Config File Saved
-				[System.Windows.Forms.MessageBox]::Show("Backups will now de saved to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
+				[System.Windows.Forms.MessageBox]::Show("Backups will now be saved to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
 			}
 		}
 	)

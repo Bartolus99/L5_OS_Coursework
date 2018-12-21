@@ -11,6 +11,12 @@
 #Load Prerequisites#
 #################### 
 
+#Powershell doesn't use relative paths very well so we use Join-Path to connect $PSScriptRoot (a powershell command to get root dir of script) with the rest of the path
+$ConfigFilePath = Join-Path $PSScriptRoot '\Config.xml' #Sets Folder for Config file to be stored in. 
+
+[xml]$ConfigFile = Get-Content -path $ConfigFilePath #Pulls Config file and reads it ready to be queried
+
+
 #Retrieve users backup choices from Config.xml
 $DocumentsBackup		     = [System.Convert]::ToBoolean($ConfigFile.Backup.Documents.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
 $MusicBackup				 = [System.Convert]::ToBoolean($ConfigFile.Backup.Music.toBackup) #Pulls checked status from Config file. XML can only store strings so it converts it to a boolean.
@@ -49,7 +55,7 @@ foreach ($item in $toBackUpList) #Loops through array and during each loop holds
 	if ($item -eq $true) #Waiting for a user choice equal to true: A user
 	{
 		$backupTrue = $true #When a user choice true comes through we set $backupTrue to true so we know the next path needs to be backed up
-	}
+	 }
 	if ($item -ne $true -and $item -ne $false) #Checks if $item is a path. If it is a boolean it will skip over this
 	{
 		if ($backupTrue -eq $true) #Checks if a user choice has been true
