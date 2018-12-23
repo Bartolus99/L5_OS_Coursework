@@ -418,6 +418,7 @@ $CustomFolder2.Add_Click(
 if ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
 {
 	$Form.ShowDialog() #Display GUI
+	
 }
 else
 {

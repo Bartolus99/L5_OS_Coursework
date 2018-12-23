@@ -49,6 +49,7 @@ $toBackUpList 				 = @($DocumentsBackup, $DocumentsPath,
 ################
 #Program Begins#
 ################
+$FileDate = Get-Date -Format "FileDate"
 $backupTrue = $false #Sets our Backup Identifier "Flag" to false
 foreach ($item in $toBackUpList) #Loops through array and during each loop holds the current item as $item so the same operation is done to each item
 {
@@ -60,7 +61,7 @@ foreach ($item in $toBackUpList) #Loops through array and during each loop holds
 	{
 		if ($backupTrue -eq $true) #Checks if a user choice has been true
 		{
-			Compress-Archive -Path $item -Update -DestinationPath $BackupLocation\Backup.zip #BacksUp the path passed from the array into a zip file
+			Compress-Archive -Path $item -Update -DestinationPath "$BackupLocation\$FileDate.zip" #BacksUp the path passed from the array into a zip file
 			$backupTrue = $false #Sets the flag back to false ready for the next user choice check
 			New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Backup", "$item finished backing up!" #Makes a windows notification
 		}
