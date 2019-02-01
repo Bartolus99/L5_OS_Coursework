@@ -12,7 +12,8 @@ Your scripts must satisfy the following requirements:
 You will be required to demonstrate your work towards the end of the module at a time to be specified by the module leader via Moodle.
 
 <h2>Our Submission</h2>
-<a href="https://github.com/Bartolus99/L5_OS_Coursework/tree/Submitted">Here</a> you will find a branch at the state the Repo was in when we submitted our work. The Master branch continues to be developed for fun.
+<a href="https://github.com/Bartolus99/L5_OS_Coursework/tree/Submitted">Here</a> you will find a branch at the state the Repo was in when we submitted our work. <p>
+The Master branch continues to be developed for fun.
 
 <h1> Windows Backup Script </h1>
 by Josh Button
