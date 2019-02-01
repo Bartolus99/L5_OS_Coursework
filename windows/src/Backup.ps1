@@ -53,7 +53,7 @@ $FileDate = Get-Date -Format "FileDate"
 $backupTrue = $false #Sets our Backup Identifier "Flag" to false
 foreach ($item in $toBackUpList) #Loops through array and during each loop holds the current item as $item so the same operation is done to each item
 {
-	if ($item -eq $true) #Waiting for a user choice equal to true: A user
+	if ($item -eq $true) #Waiting for a user choice equal to true
 	{
 		$backupTrue = $true #When a user choice true comes through we set $backupTrue to true so we know the next path needs to be backed up
 	 }
@@ -67,3 +67,6 @@ foreach ($item in $toBackUpList) #Loops through array and during each loop holds
 		}
 	}
 }
+$BackupFullPath = $BackupLocation + $FileDate + ".zip"
+$NewFileName = $BackupLocation + $FileDate + ".backup"
+Rename-Item -path $BackupFullPath -newname $NewFileName

@@ -4,7 +4,7 @@ Co-Author Bartosz Stasik - U1730148
 -->
 <Backup>
   <Documents>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
   </Documents>
   <Music>
     <toBackup>False</toBackup>

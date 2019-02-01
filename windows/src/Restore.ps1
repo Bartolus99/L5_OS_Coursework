@@ -10,7 +10,8 @@
 ####################
 #Load Prerequisites#
 #################### 
-$BackupFilePath		= Join-Path $ConfigFile.Backup.BackupLocation '\Backup.zip' #gets backup location from config.xml and appends file name using Join-Path
+$BackupFolder		= $ConfigFile.Backup.BackupLocation #gets backup location from config.xml
+$WildcardPath 		= $BackupFolder + "*.backup"
 
 ###########
 #Functions#
@@ -33,6 +34,48 @@ Function Get-Folder() #Defines name of function
     return $folder #Returns either the chosen path or "CANCEL"
 }
 
+#####
+#GUI#
+#####
+$RestoreSelect 					= New-Object System.Windows.Forms.Form
+$RestoreSelect.Text 			= 'Select a time'
+$RestoreSelect.Size 			= New-Object System.Drawing.Size(300,200)
+$RestoreSelect.StartPosition 	= 'CenterScreen'
+$RestoreSelect.FormBorderStyle 	= 'Fixed3D' #Disables resizing the form window
+$RestoreSelect.MaximizeBox 		= $false #Removes Maximize button
+$Timesel.MinimizeBox 			= $false #Removes Minimize button
+
+$OKButton 						= New-Object System.Windows.Forms.Button
+$OKButton.Location 				= New-Object System.Drawing.Point(75,120)
+$OKButton.Size 					= New-Object System.Drawing.Size(75,23)
+$OKButton.Text 					= 'OK'
+$OKButton.DialogResult 			= [System.Windows.Forms.DialogResult]::OK
+$RestoreSelect.AcceptButton 			= $OKButton
+$RestoreSelect.Controls.Add($OKButton)
+
+$CancelButton 					= New-Object System.Windows.Forms.Button
+$CancelButton.Location 			= New-Object System.Drawing.Point(150,120)
+$CancelButton.Size 				= New-Object System.Drawing.Size(75,23)
+$CancelButton.Text 				= 'Cancel'
+$CancelButton.DialogResult 		= [System.Windows.Forms.DialogResult]::Cancel
+$RestoreSelect.CancelButton 			= $CancelButton
+$RestoreSelect.Controls.Add($CancelButton)
+$label 							= New-Object System.Windows.Forms.Label
+$label.Location 				= New-Object System.Drawing.Point(10,20)
+$label.Size 					= New-Object System.Drawing.Size(280,30)
+$label.Text 					= 'Here is a list of all your backups'
+$RestoreSelect.Controls.Add($label)
+
+$listBox 						= New-Object System.Windows.Forms.ListBox
+$listBox.Location 				= New-Object System.Drawing.Point(10,55)
+$listBox.Size 					= New-Object System.Drawing.Size(260,20)
+$listBox.Height 				= 80
+
+
+
+
+$RestoreSelect.Controls.Add($listBox)
+
 ################
 #Program Begins#
 ################
@@ -43,9 +86,22 @@ if($RestorePath -eq "CANCEL") #Checks if Folder Browser Dialog returned a path o
 }
 else
 {
-	If(test-path $BackupFilePath) #Checks if Backup.zip exists in the location specified in Config.xml
+	If(test-path $WildcardPath) #Checks if any *.backup files exist in the location specified in Config.xml
 	{
-		Expand-Archive -Force -LiteralPath $BackupFilePath -DestinationPath $RestorePath\RestoredFiles #Unzips backup.zip to users chosen location from Folder Dialog
+		$ListOfBackups = Get-ChildItem -Path $WildcardPath
+		for ($i = 0; $i -lt $ListOfBackups.Count ; $i++) {
+			[void] $listBox.Items.Add($ListOfBackups[$i])
+		}
+		$RestoreSelect.ShowDialog()
+		$RestoreChoice = $listBox.SelectedItem
+		$parent = [System.IO.Path]::GetTempPath()
+		$name = [System.IO.Path]::GetRandomFileName()
+		New-Item -ItemType Directory -Path (Join-Path $parent $name)
+		$TempFolder = Join-Path $parent $name 
+		$TempPath = Join-Path $TempFolder "restore.zip"
+		Copy-Item $RestoreChoice -Destination $TempPath
+		Expand-Archive -Force -LiteralPath $TempPath -DestinationPath $RestorePath\RestoredFiles
+		
 		New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
 	}
 	else

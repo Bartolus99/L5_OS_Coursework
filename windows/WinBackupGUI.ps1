@@ -325,12 +325,12 @@ $BackupButton.Add_Click(
 		if ($result -eq [System.Windows.Forms.DialogResult]::OK)
 			{
 				$time = $listBox.SelectedItem
-				$action = New-ScheduledTaskAction -Execute $BackupScript
+				$action = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument $BackupScript
 				$trigger =  New-ScheduledTaskTrigger -Daily -At $time
 				$Task = Get-ScheduledTask
 				if ($Task -like '*Backup Script*') {
 					Unregister-ScheduledTask -TaskName "Backup Script" -Confirm:$false
-					Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Daily backup"
+					Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Daily backup run by Josh and Barts Windows Backup. This script is located at $PSScriptRoot"
 					[System.Windows.Forms.MessageBox]::Show("Backups will now be done daily at $time to $BackupLocation\Backup.zip", "WINDOWS BACKUP") #Notifies user of the change in backup location
 
 				}
