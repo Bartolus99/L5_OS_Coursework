@@ -67,6 +67,6 @@ foreach ($item in $toBackUpList) #Loops through array and during each loop holds
 		}
 	}
 }
-$BackupFullPath = $BackupLocation + $FileDate + ".zip"
-$NewFileName = $BackupLocation + $FileDate + ".backup"
+$BackupFullPath = $BackupLocation + "\" + $FileDate + ".zip"
+$NewFileName = $BackupLocation + "\" + $FileDate + ".backup"
 Rename-Item -path $BackupFullPath -newname $NewFileName

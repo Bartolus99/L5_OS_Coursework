@@ -4,13 +4,13 @@ Co-Author Bartosz Stasik - U1730148
 -->
 <Backup>
   <Documents>
-    <toBackup>False</toBackup>
+    <toBackup>True</toBackup>
   </Documents>
   <Music>
     <toBackup>False</toBackup>
   </Music>
   <Pictures>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
   </Pictures>
   <Videos>
     <toBackup>False</toBackup>
@@ -23,8 +23,8 @@ Co-Author Bartosz Stasik - U1730148
     <path>D:\</path>
   </CustomFolder1>
   <CustomFolder2>
-    <toBackup>True</toBackup>
+    <toBackup>False</toBackup>
     <path>C:\Windows\Boot\PCAT\en-US</path>
   </CustomFolder2>
-  <BackupLocation>D:\</BackupLocation>
+  <BackupLocation>D:\zBackups</BackupLocation>
 </Backup>

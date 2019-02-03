@@ -11,7 +11,7 @@
 #Load Prerequisites#
 #################### 
 $BackupFolder		= $ConfigFile.Backup.BackupLocation #gets backup location from config.xml
-$WildcardPath 		= $BackupFolder + "*.backup"
+$WildcardPath 		= $BackupFolder + "\" + "*.backup"
 
 ###########
 #Functions#
@@ -58,8 +58,9 @@ $CancelButton.Location 			= New-Object System.Drawing.Point(150,120)
 $CancelButton.Size 				= New-Object System.Drawing.Size(75,23)
 $CancelButton.Text 				= 'Cancel'
 $CancelButton.DialogResult 		= [System.Windows.Forms.DialogResult]::Cancel
-$RestoreSelect.CancelButton 			= $CancelButton
+$RestoreSelect.CancelButton 	= $CancelButton
 $RestoreSelect.Controls.Add($CancelButton)
+
 $label 							= New-Object System.Windows.Forms.Label
 $label.Location 				= New-Object System.Drawing.Point(10,20)
 $label.Size 					= New-Object System.Drawing.Size(280,30)
@@ -103,9 +104,10 @@ else
 		Expand-Archive -Force -LiteralPath $TempPath -DestinationPath $RestorePath\RestoredFiles
 		
 		New-BurntToastNotification -AppLogo $logoPath -Text "Josh and Bart's Windows Restore", "Finished restore process!" #Makes a windows notification
+		ii $RestorePath\RestoredFiles
 	}
 	else
 	{
-		[System.Windows.Forms.MessageBox]::Show("$BackupFilePath does not exist. Use the ""Backup Location"" button to choose the folder containing Backup.zip", "WINDOWS BACKUP") #Notifies user that Backup.zip does not exist. This will happen when Backup location is changed and then a backup isn't run before trying to restore from the location so the program can not find Backup.zip in the directory specified
+		[System.Windows.Forms.MessageBox]::Show("$WildcardPath does not exist. Use the ""Backup Location"" button to choose the folder containing your .backup files", "WINDOWS BACKUP") #Notifies user that Backup.zip does not exist. This will happen when Backup location is changed and then a backup isn't run before trying to restore from the location so the program can not find Backup.zip in the directory specified
 	}
 }
