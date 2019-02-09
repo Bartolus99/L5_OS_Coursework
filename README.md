@@ -18,9 +18,9 @@ The Master branch continues to be developed for fun.
 <h1> Windows Backup Script </h1>
 by Josh Button
 
-What is it?
-A Powershell script with a GUI for configuration of Folder Backup and Restoration on Windows!
-
+What is it?<p>
+A Powershell script with a GUI for scheduling and configuring backups and restorating files.
+  
 <h2>Includes</h2>
 <ul>
   <li>Check boxes to choose which folder to back up</li>
